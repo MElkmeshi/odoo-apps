@@ -1,0 +1,106 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#0F766E;">Partner Phone (Egypt)</h2>
+        <h3 class="oe_slogan" style="color:#5f7d7a;">One canonical number per contact — no duplicates, found however it is typed</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                The same customer gets entered twice as <code>+20 100 123 4567</code> and
+                <code>01001234567</code>, and nothing stops it — because to Odoo those are two
+                different strings. This module stores every Egyptian mobile in one canonical
+                form and builds duplicate prevention and search on top of it.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Every format becomes one number</h2>
+        <div class="oe_span12">
+            <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
+                <tr><th style="padding:8px 24px;">Typed by the user</th><th style="padding:8px 24px;">Stored</th></tr>
+                <tr><td style="padding:6px 24px;"><code>+20 100 123 4567</code></td><td style="padding:6px 24px;"><code>01001234567</code></td></tr>
+                <tr><td style="padding:6px 24px;"><code>00201001234567</code></td><td style="padding:6px 24px;"><code>01001234567</code></td></tr>
+                <tr><td style="padding:6px 24px;"><code>201001234567</code></td><td style="padding:6px 24px;"><code>01001234567</code></td></tr>
+                <tr><td style="padding:6px 24px;"><code>0100-123-4567</code></td><td style="padding:6px 24px;"><code>01001234567</code></td></tr>
+                <tr><td style="padding:6px 24px;"><code>1001234567</code></td><td style="padding:6px 24px;"><code>01001234567</code></td></tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you get</h2>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Duplicates are refused</h3>
+            <p>
+                Saving a contact whose number an active contact already holds fails with a
+                message naming who has it — not a database error. The guarantee is a partial
+                unique index in PostgreSQL, so two people saving the same number at the same
+                moment cannot both get through.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Search by number, any format</h3>
+            <p>
+                Type a phone number into any contact field and the contact is found, whether
+                you type it the way it is stored or the way it appears on the customer's own
+                screen. Searching by name keeps working exactly as before.
+            </p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Nothing else is touched</h3>
+            <p>
+                Landlines, foreign numbers and blank fields are left exactly as entered and are
+                not covered by the uniqueness rule — only real Egyptian mobiles
+                (<code>010</code>, <code>011</code>, <code>012</code>, <code>015</code>) are.
+                Archived contacts release their number for reuse.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">One field, no configuration</h3>
+            <p>
+                Adds a single stored field, <code>phone_normalized</code>, computed from the
+                contact's phone. Install it and existing contacts are normalised automatically.
+                There is nothing to set up.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Before you install</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                If your database already contains two active contacts sharing a number, the
+                unique index cannot be created until you merge or archive one of them.
+                Odoo reports which records conflict.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                Saving a contact also rewrites its phone field to the canonical form. If you
+                need the number preserved exactly as typed, this module is not for you.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Works well with</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                <b>Phone in Contact Name</b> — shows the number next to the contact's
+                name, so two similarly named contacts are told apart at a glance. Independent;
+                install either or both.
+            </p>
+        </div>
+    </div>
+</section>
