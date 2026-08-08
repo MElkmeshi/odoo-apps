@@ -31,7 +31,7 @@ class AiAgent(models.Model):
         """Parse ``ai.custom_llm_models``: ``code:Label, code:Label``.
 
         The label is optional; the code doubles as its own label. Entries are
-        not validated against the gateway — a typo surfaces as an API error on
+        not validated against the gateway - a typo surfaces as an API error on
         first use, which is a clearer signal than a silently missing option.
         """
         raw = self.env['ir.config_parameter'].sudo().get_param(CUSTOM_MODELS_PARAM) or ''
@@ -58,8 +58,8 @@ class AiAgent(models.Model):
         try:
             return super()._get_provider()
         except UserError:
-            # The model list can shrink — a different endpoint, or one that
-            # retired a model — which stock Odoo never has to handle. Its
+            # The model list can shrink - a different endpoint, or one that
+            # retired a model - which stock Odoo never has to handle. Its
             # write() resolves the *old* value before writing the new one
             # (ai/models/ai_agent.py:337), so raising here would make an
             # agent on a dropped model impossible to correct from the UI.

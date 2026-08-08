@@ -5,7 +5,7 @@
         <div class="oe_span12">
             <p class="oe_mt32 text-center" style="font-size:16px;">
                 Odoo's AI module has its LLM endpoints hardcoded, so it can only ever talk to
-                OpenAI or Google. This module reads them from settings instead — which is all it
+                OpenAI or Google. This module reads them from settings instead &mdash; which is all it
                 takes to point the entire AI stack at a gateway you control.
             </p>
         </div>
@@ -17,12 +17,12 @@
         <h2 class="oe_slogan">Point Odoo anywhere</h2>
         <div class="oe_span12">
             <p class="text-center" style="font-size:15px;">
-                LiteLLM &nbsp;·&nbsp; vLLM &nbsp;·&nbsp; OpenRouter &nbsp;·&nbsp; Azure OpenAI
-                &nbsp;·&nbsp; a self-hosted proxy &nbsp;·&nbsp; a private mirror
+                LiteLLM &nbsp;&middot;&nbsp; vLLM &nbsp;&middot;&nbsp; OpenRouter &nbsp;&middot;&nbsp; Azure OpenAI
+                &nbsp;&middot;&nbsp; a self-hosted proxy &nbsp;&middot;&nbsp; a private mirror
             </p>
             <p class="text-center" style="font-size:15px;">
                 Anything that speaks the OpenAI protocol. Set the base URL under
-                <b>Settings → AI → Providers</b> and Odoo's AI agents, prompts and RAG sources
+                <b>Settings &rarr; AI &rarr; Providers</b> and Odoo's AI agents, prompts and RAG sources
                 go to it instead of api.openai.com.
             </p>
         </div>
@@ -36,7 +36,7 @@
         <div class="oe_span6">
             <h3 style="color:#6D28D9;">Your own models in the dropdown</h3>
             <p>
-                Add any models your gateway routes — Claude, Llama, Mistral, a fine-tune — and
+                Add any models your gateway routes &mdash; Claude, Llama, Mistral, a fine-tune &mdash; and
                 they appear in the AI agent's model list alongside Odoo's built-in ones. The
                 list can be fetched from the gateway itself rather than typed by hand.
             </p>
@@ -78,14 +78,14 @@
         <div class="oe_span12">
             <p class="text-center" style="font-size:15px;">
                 Odoo drives chat through the OpenAI <b>Responses</b> API
-                (<code>POST /responses</code>) — <i>not</i> <code>/chat/completions</code> — and
+                (<code>POST /responses</code>) &mdash; <i>not</i> <code>/chat/completions</code> &mdash; and
                 RAG embeddings through <code>POST /embeddings</code>. A gateway must serve those
                 exact routes. Many OpenAI-compatible proxies implement only
                 <code>/chat/completions</code>; those will not work until they add
                 <code>/responses</code>.
             </p>
             <p class="text-center" style="font-size:15px;">
-                Worth checking before you install — it is the one thing that decides whether a
+                Worth checking before you install &mdash; it is the one thing that decides whether a
                 given gateway is usable.
             </p>
         </div>

@@ -3,7 +3,7 @@
 Odoo modules published to the [Odoo Apps Store](https://apps.odoo.com).
 
 One folder per app at the root of the repository, as the store requires. The
-branch name is the Odoo series the modules target — `19.0`.
+branch name is the Odoo series the modules target - `19.0`.
 
 | Module | What it does |
 |---|---|
@@ -18,7 +18,7 @@ install it from **Apps**. No other steps.
 
 ## Versions
 
-Each series lives on its own branch, named after it (`19.0`, `18.0`, …), with
+Each series lives on its own branch, named after it (`19.0`, `18.0`, ...), with
 the module keeping the same technical name across versions.
 
 ## License

@@ -3,7 +3,7 @@
 ``LLMApiService.__init__`` hardcodes the base URL per provider, and every call
 site builds the service directly (``LLMApiService(env, provider=...)`` in
 ai_agent, ai_embedding, ai_fields, ir_actions_server, voip_ai, esg_csrd_ai...),
-so there is no seam to inherit — patching the constructor is the only lever.
+so there is no seam to inherit - patching the constructor is the only lever.
 
 The URL is read from the environment on every instantiation rather than at
 import time, so it stays per-database on a multi-database server.

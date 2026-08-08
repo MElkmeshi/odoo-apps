@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     # config_parameter fields read and write ir.config_parameter directly, so
-    # these are the same settings the rest of the module reads — editing them
+    # these are the same settings the rest of the module reads - editing them
     # here and editing System Parameters are interchangeable.
     ai_custom_endpoint_enabled = fields.Boolean(
         string="Use a custom AI endpoint",
@@ -53,7 +53,7 @@ class ResConfigSettings(models.TransientModel):
 
         Deliberately does *not* call ``execute()``. That would save every
         unsaved setting on the whole Settings page, and it installs or
-        uninstalls the modules behind ``module_`` checkboxes — which the ORM
+        uninstalls the modules behind ``module_`` checkboxes - which the ORM
         requires to happen last in the transaction (res_config.py:362). This
         method makes a network call afterwards, and a failing call would roll
         an install back mid-flight. Only the parameters this feature owns are

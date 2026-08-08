@@ -14,10 +14,10 @@ recognised as the same number.
 
 On top of that single form:
 
-* **Uniqueness** — a second contact cannot be created with a number an active
+* **Uniqueness** - a second contact cannot be created with a number an active
   contact already holds. Enforced by a partial unique index, so concurrent
   saves cannot both slip through.
-* **Search** — typing a number in any format finds the contact, anywhere a
+* **Search** - typing a number in any format finds the contact, anywhere a
   contact is selected.
 
 Contacts without an Egyptian mobile (landlines, foreign numbers) are left

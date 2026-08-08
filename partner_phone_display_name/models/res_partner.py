@@ -8,16 +8,16 @@ class ResPartner(models.Model):
     def _compute_display_name(self):
         """Append the phone to the contact's name.
 
+        Plain ASCII and the same format everywhere. An en/em dash renders as
+        mojibake anywhere the value is read as latin-1, and core's dropdown
+        markup ("\t --value--") leaks its literal dashes into every other
+        place a contact is shown, so neither is used.
+
         Note this is display_name, so the number also appears wherever the
-        contact is printed — quotations, invoices, email recipients — not
+        contact is printed - quotations, invoices, email recipients - not
         only in contact selectors.
         """
         super()._compute_display_name()
         for partner in self:
-            if not partner.phone:
-                continue
-            if partner.env.context.get('formatted_display_name'):
-                # Matches how core renders extra info in dropdowns.
-                partner.display_name = f"{partner.display_name} \t --{partner.phone}--"
-            else:
-                partner.display_name = f"{partner.display_name} — {partner.phone}"
+            if partner.phone:
+                partner.display_name = f"{partner.display_name} ({partner.phone})"

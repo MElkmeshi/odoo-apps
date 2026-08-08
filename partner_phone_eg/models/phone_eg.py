@@ -14,7 +14,7 @@ EG_MOBILE_RE = re.compile(r'^01[0125]\d{8}$')
 def normalize_eg_phone(raw):
     """Return the canonical ``01XXXXXXXXX`` form of `raw`, or None.
 
-    None means "not an Egyptian mobile" — a landline, a foreign number or
+    None means "not an Egyptian mobile" - a landline, a foreign number or
     junk. Callers decide whether that is an error or simply a number that
     uniqueness does not apply to.
     """

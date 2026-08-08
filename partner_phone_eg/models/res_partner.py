@@ -39,7 +39,7 @@ class ResPartner(models.Model):
 
         _rec_names_search alone only does a literal ilike, so searching
         "+20 100 123 4567" finds nothing even though it is the stored
-        01001234567 — the form users are most likely to type, since it is
+        01001234567 - the form users are most likely to type, since it is
         what appears on the contact's own screen.
         """
         domain = super()._search_display_name(operator, value)
