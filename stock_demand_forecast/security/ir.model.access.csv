@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stats_model_user,stats.model.user,model_stats_model,group_stock_demand_forecast,1,1,1,1
+access_forecast_report_user,forecast.report.user,model_forecast_report,group_stock_demand_forecast,1,1,1,1

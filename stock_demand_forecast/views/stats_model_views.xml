@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stats_model_action" model="ir.actions.act_window">
+        <field name="name">Stats Models</field>
+        <field name="res_model">stats.model</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="stats_model_view_list" model="ir.ui.view">
+        <field name="name">stats.model.list</field>
+        <field name="model">stats.model</field>
+        <field name="arch" type="xml">
+            <list string="Stats Models">
+                <field name="reference"/>
+                <field name="method"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="stats_model_view_form" model="ir.ui.view">
+        <field name="name">stats.model.form</field>
+        <field name="model">stats.model</field>
+        <field name="arch" type="xml">
+            <form string="Statistical Model">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="reference"/>
+                        <h1><field name="reference" placeholder="H1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="method"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Parameters" name="parameters">
+                            <!-- AutoReg -->
+                            <group invisible="method != 'autoreg'">
+                                <group string="PARAMETERS">
+                                    <field name="lags" invisible="method != 'autoreg'"/>
+                                    <field name="trend" invisible="method != 'autoreg'"/>
+                                    <field name="seasonal" invisible="method != 'autoreg'"/>
+                                </group>
+                            </group>
+                            <!-- ARDL -->
+                            <group invisible="method != 'ardl'">
+                                <group string="PARAMETERS">
+                                    <field name="ardl_p" invisible="method != 'ardl'"/>
+                                    <field name="ardl_q" invisible="method != 'ardl'"/>
+                                    <field name="maxlag" invisible="method != 'ardl'"/>
+                                    <field name="trend" invisible="method != 'ardl'"/>
+                                </group>
+                            </group>
+                            <!-- ARIMA -->
+                            <group invisible="method != 'arima'">
+                                <group string="ORDER">
+                                    <field name="p" invisible="method != 'arima' and method != 'sarimax'"/>
+                                    <field name="d" invisible="method != 'arima' and method != 'sarimax'"/>
+                                    <field name="q" invisible="method != 'arima' and method != 'sarimax'"/>
+                                </group>
+                                <group string="PARAMETERS">
+                                    <field name="trend" invisible="method != 'arima'"/>
+                                </group>
+                            </group>
+                            <!-- SARIMAX -->
+                            <group invisible="method != 'sarimax'">
+                                <group string="ORDER">
+                                    <field name="p" invisible="method != 'sarimax'"/>
+                                    <field name="d" invisible="method != 'sarimax'"/>
+                                    <field name="q" invisible="method != 'sarimax'"/>
+                                </group>
+                                <group string="SEASONAL ORDER">
+                                    <field name="sp" invisible="method != 'sarimax'"/>
+                                    <field name="sd" invisible="method != 'sarimax'"/>
+                                    <field name="sq" invisible="method != 'sarimax'"/>
+                                    <field name="seasonal_periods" invisible="method != 'sarimax'"/>
+                                </group>
+                                <group string="PARAMETERS">
+                                    <field name="trend" invisible="method != 'sarimax'"/>
+                                    <field name="sarimax_flags" widget="json"
+                                           invisible="method != 'sarimax'"/>
+                                </group>
+                            </group>
+                            <!-- HWES -->
+                            <group invisible="method != 'hwes'">
+                                <group string="PARAMETERS">
+                                    <field name="hwes_trend" invisible="method != 'hwes'"/>
+                                    <field name="hwes_damped" invisible="method != 'hwes'"/>
+                                    <field name="hwes_seasonal" invisible="method != 'hwes'"/>
+                                    <field name="seasonal_periods"
+                                           invisible="method != 'hwes' or hwes_seasonal == 'none'"/>
+                                </group>
+                            </group>
+                            <!-- SES -->
+                            <group invisible="method != 'ses'">
+                                <group string="PARAMETERS">
+                                    <field name="ses_smoothing_level" invisible="method != 'ses'"/>
+                                    <field name="ses_optimized" invisible="method != 'ses'"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Help" name="help">
+                            <div class="oe_structure" style="padding:8px">
+                                <h4>Statsmodels Documentation</h4>
+                                <ul class="list-unstyled" style="padding-left:16px">
+                                    <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.ar_model.AutoReg.html" target="_blank">statsmodels Autoregression (AutoReg)</a></li>
+                                    <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.ardl.ARDL.html" target="_blank">statsmodels Autoregressive Distributed Lag (ARDL)</a></li>
+                                    <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html" target="_blank">statsmodels ARIMA</a></li>
+                                    <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html" target="_blank">statsmodels SARIMAX</a></li>
+                                    <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.ExponentialSmoothing.html" target="_blank">statsmodels Holt Winter's Exponential Smoothing (HWES)</a></li>
+                                    <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.SimpleExpSmoothing.html" target="_blank">statsmodels Simple Exponential Smoothing (SES)</a></li>
+                                </ul>
+                                <h4>Misc Materials</h4>
+                                <ul class="list-unstyled" style="padding-left:16px">
+                                    <li><a href="https://www.statsmodels.org/stable/examples/notebooks/generated/tsa_arma.html" target="_blank">SARIMAX and ARIMA: Frequently Asked Questions (FAQ)</a></li>
+                                    <li><a href="https://online.stat.psu.edu/stat510/" target="_blank">Time Series Analysis (Penn State STAT 510)</a></li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

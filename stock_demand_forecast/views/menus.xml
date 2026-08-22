@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_trends_forecast_root" name="Trends&amp;Forecast"
+              parent="stock.menu_stock_root"
+              action="action_stock_demand_forecast"
+              groups="stock_demand_forecast.group_stock_demand_forecast"
+              sequence="45"/>
+
+    <menuitem id="menu_stats_models" name="Stats Models"
+              parent="stock.menu_stock_config_settings"
+              action="stats_model_action" sequence="60"/>
+</odoo>

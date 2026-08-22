@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="stock_demand_forecast.Manager">
+        <div class="sdf-manager d-flex">
+            <div class="sdf-sidebar">
+                <!-- report selector -->
+                <select t-on-change="onSelectReport" class="mb-2">
+                    <option value="" t-att-selected="!state.currentReportId"
+                            t-esc="config.name or 'Select report...'"/>
+                    <option t-foreach="state.reports" t-as="r" t-key="r.id"
+                            t-att-value="r.id" t-att-selected="state.currentReportId === r.id"
+                            t-esc="r.name"/>
+                </select>
+
+                <!-- action bar -->
+                <div class="sdf-actionbar">
+                    <button t-on-click="() => this.onNewReport()" title="New report">
+                        <i class="fa fa-plus"/> New
+                    </button>
+                    <button class="btn-primary-like" t-att-disabled="state.loading"
+                            t-on-click="() => this.onRefresh()">
+                        Refresh
+                    </button>
+                    <button t-on-click="() => this.onExport()">
+                        Export
+                    </button>
+                    <button t-att-disabled="!state.dirty"
+                            t-att-title="state.dirty ? 'Save' : 'No changes'"
+                            t-on-click="() => this.onSave()">
+                        Save<span t-if="state.dirty"> *</span>
+                    </button>
+                </div>
+
+                <!-- historical data -->
+                <div class="sdf-section-title">Historical Data</div>
+                <select t-on-change="(ev) => this.setField('interval', ev.target.value)">
+                    <t t-foreach="intervals" t-as="iv" t-key="iv[0]">
+                        <option t-att-value="iv[0]"
+                                t-att-selected="config.interval === iv[0]"
+                                t-esc="iv[1]"/>
+                    </t>
+                </select>
+                <div class="d-flex gap-2 mt-2">
+                    <input type="date" class="w-50" name="period_start"
+                           t-att-value="config.period_start || ''"
+                           t-on-change="(ev) => this.setField('period_start', ev.target.value)"/>
+                    <input type="date" class="w-50" name="period_end"
+                           t-att-value="config.period_end || ''"
+                           t-on-change="(ev) => this.setField('period_end', ev.target.value)"/>
+                </div>
+
+                <!-- stats models -->
+                <div class="sdf-section-title">Stats Models</div>
+                <div>
+                    <span t-foreach="config.model_ids" t-as="m" t-key="m.id" class="sdf-tag">
+                        <span class="o_tag_text" t-esc="m.display_name"/>
+                        <span class="o_remove" t-on-click="() => this.onRemoveModel(m.id)">×</span>
+                    </span>
+                </div>
+                <div class="position-relative mt-1">
+                    <button type="button" class="sdf-filter-placeholder"
+                            t-on-click="() => this.onModelClick()">Add statistical model...</button>
+                    <div t-if="modelSearch.open" class="sdf-dropdown-menu position-absolute shadow p-1">
+                        <input type="text" placeholder="Search..." autofocus=""
+                               t-on-input="(ev) => this.onModelSearch(ev.target.value)"/>
+                        <a t-foreach="modelSearch.options" t-as="opt" t-key="opt.id"
+                           class="dropdown-item text-truncate"
+                           t-on-click="() => this.onSelectModel(opt)"
+                           t-esc="opt.display_name"/>
+                        <a class="dropdown-item text-muted small"
+                           href="#" t-on-click.prevent="() => this.onModelClick()">
+                            (create models in Configuration &gt; Stats Models)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- forecast periods -->
+                <div class="sdf-section-title">Forecast Periods</div>
+                <input type="number" min="0" max="120" t-att-value="config.horizon"
+                       t-on-change="(ev) => this.setField('horizon', parseInt(ev.target.value || '0', 10))"/>
+
+                <!-- filters -->
+                <div class="sdf-section-title">Filters</div>
+                <t t-foreach="filterDefs" t-as="def" t-key="def.key">
+                    <div class="sdf-filter-block">
+                        <button type="button" class="sdf-filter-placeholder"
+                                t-on-click="() => this.onFilterClick(def)"
+                                t-esc="def.label"/>
+                        <div>
+                            <span t-foreach="config[def.key]" t-as="tag" t-key="tag.id" class="sdf-tag">
+                                <span class="o_tag_text" t-esc="tag.display_name"/>
+                                <span class="o_remove"
+                                      t-on-click="() => this.onRemoveTag(def.key, tag.id)">×</span>
+                            </span>
+                        </div>
+                        <div t-if="search.openFilter === def.key"
+                             class="sdf-dropdown-menu position-relative shadow p-1 mt-1">
+                            <input type="text" placeholder="Search..."
+                                   t-on-input="(ev) => this.onFilterSearch(def, ev)"/>
+                            <a t-foreach="search.options" t-as="opt" t-key="opt.id"
+                               class="dropdown-item text-truncate"
+                               t-on-click="() => this.onSelectOption(def, opt)"
+                               t-esc="opt.display_name"/>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- extra filters -->
+                <div class="sdf-section-title">Extra Filters</div>
+                <DomainSelector domain="extraDomainStr"
+                                resModel="'stock.move'"
+                                readonly="false"
+                                update="(d) => this.onExtraDomainChange(d)"/>
+
+                <!-- group by -->
+                <div class="sdf-section-title">Group By</div>
+                <select t-on-change="(ev) => this.setField('group_by_field', ev.target.value)">
+                    <t t-foreach="groupBys" t-as="gb" t-key="gb[0]">
+                        <option t-att-value="gb[0]"
+                                t-att-selected="config.group_by_field === gb[0]"
+                                t-esc="gb[1]"/>
+                    </t>
+                </select>
+
+                <!-- extra settings -->
+                <div class="sdf-section-title">States</div>
+                <label t-foreach="statesList" t-as="st" t-key="st[0]"
+                       class="form-check d-flex justify-content-between align-items-center mb-2">
+                    <span t-esc="st[1]"/>
+                    <input type="checkbox" class="form-check-input ms-2"
+                           t-att-checked="config.state_flags[st[0]]"
+                           t-on-change="(ev) => this.toggleState(st[0], ev.target.checked)"/>
+                </label>
+
+                <div class="sdf-section-title">Extra Settings</div>
+                <label class="form-check d-flex justify-content-between align-items-center mb-2">
+                    <span>Show Stats Info</span>
+                    <input type="checkbox" class="form-check-input"
+                           t-att-checked="config.show_stats_info"
+                           t-on-change="(ev) => this.setField('show_stats_info', ev.target.checked)"/>
+                </label>
+                <label class="form-check d-flex justify-content-between align-items-center mb-2">
+                    <span>Hypothesis Testing</span>
+                    <input type="checkbox" class="form-check-input"
+                           t-att-checked="config.hypothesis_testing"
+                           t-on-change="(ev) => this.setField('hypothesis_testing', ev.target.checked)"/>
+                </label>
+                <label class="form-check d-flex justify-content-between align-items-center mb-2">
+                    <span>Shorten Figures</span>
+                    <input type="checkbox" class="form-check-input"
+                           t-att-checked="config.shorten_figures"
+                           t-on-change="(ev) => this.setField('shorten_figures', ev.target.checked)"/>
+                </label>
+            </div>
+
+            <div class="sdf-result flex-grow-1 d-flex flex-column overflow-auto position-relative">
+                <t t-if="state.result and state.result.series and state.result.series.length">
+                    <div class="sdf-viewtoggle d-flex gap-1 p-2 border-bottom bg-white">
+                        <button type="button"
+                                t-att-class="'btn btn-sm ' + (state.viewMode === 'table' ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => state.viewMode = 'table'"
+                                title="Table" aria-label="Table view">
+                            <i class="fa fa-table"/>
+                        </button>
+                        <button type="button"
+                                t-att-class="'btn btn-sm ' + (state.viewMode === 'line' ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => state.viewMode = 'line'"
+                                title="Line chart" aria-label="Line chart view">
+                            <i class="fa fa-line-chart"/>
+                        </button>
+                        <button type="button"
+                                t-att-class="'btn btn-sm ' + (state.viewMode === 'bar' ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => state.viewMode = 'bar'"
+                                title="Bar chart" aria-label="Bar chart view">
+                            <i class="fa fa-bar-chart"/>
+                        </button>
+                    </div>
+                </t>
+                <t t-if="state.loading">
+                    <div class="sdf-loading-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+                        <i class="fa fa-circle-o-notch fa-spin fa-3x text-muted" role="img" aria-label="Loading"/>
+                    </div>
+                </t>
+                <t t-if="!state.result or !state.result.series or !state.result.series.length">
+                    <div class="text-muted text-center p-5 m-auto">Configure the report and press Refresh.</div>
+                </t>
+                <t t-elif="state.result.series.length === 0">
+                    <div class="alert alert-warning m-4" role="status">No data matches the current filters.</div>
+                </t>
+                <t t-else="">
+                    <TableView t-if="state.viewMode === 'table'" result="state.result"/>
+                    <ChartPanel t-if="state.viewMode !== 'table'" result="state.result" mode="state.viewMode"/>
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>
