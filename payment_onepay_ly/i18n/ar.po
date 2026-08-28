@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* payment_onepay
+# 	* payment_onepay_ly
 #
 msgid ""
 msgstr ""
@@ -13,8 +13,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.inline_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.inline_form
 msgid ""
 "<small class=\"form-text text-muted\">\n"
 "                    A one-time password will be sent to the mobile number registered with your\n"
@@ -25,97 +25,97 @@ msgstr ""
 "                    سيتم إرسال كلمة مرور لمرة واحدة إلى رقم الهاتف المسجّل لدى محفظتك.\n"
 "                </small>"
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_base_url
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_base_url
 msgid "API Base URL"
 msgstr "رابط واجهة البرمجة الأساسي"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.payment_provider_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.payment_provider_form
 msgid "API Endpoints"
 msgstr "نقاط نهاية واجهة البرمجة"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
 msgid "An error occurred when communicating with the OnePay API."
 msgstr "حدث خطأ أثناء الاتصال بواجهة OnePay."
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_auth_user_type
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_auth_user_type
 msgid "Auth User Type"
 msgstr "نوع مستخدم المصادقة"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_ca_bundle
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_ca_bundle
 msgid "CA Bundle"
 msgstr "حزمة شهادات الجهة المصدّقة"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.payment_transaction_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.payment_transaction_form
 msgid "Check with OnePay"
 msgstr "التحقق لدى OnePay"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_cert
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_cert
 msgid "Client Certificate"
 msgstr "شهادة العميل"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_key
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_key
 msgid "Client Private Key"
 msgstr "المفتاح الخاص للعميل"
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_complete_path
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_complete_path
 msgid "Complete Path"
 msgstr "مسار الإتمام"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.inline_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.inline_form
 msgid "Confirm Payment"
 msgstr "تأكيد الدفع"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
 msgid "Could not authenticate with the OnePay API. Please contact support."
 msgstr "تعذّرت المصادقة مع واجهة OnePay. يرجى التواصل مع الدعم."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
 msgid "Could not establish a connection to the OnePay API."
 msgstr "تعذّر الاتصال بواجهة OnePay."
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.payment_provider_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.payment_provider_form
 msgid "Gateway Credentials"
 msgstr "بيانات اعتماد البوابة"
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_provider_id
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_provider_id
 msgid "Gateway Provider ID"
 msgstr "معرّف المزوّد لدى البوابة"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.inline_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.inline_form
 msgid "Identity Card Number"
 msgstr "رقم البطاقة الشخصية"
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_init_path
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_init_path
 msgid "Init Path"
 msgstr "مسار بدء العملية"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.payment_transaction_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.payment_transaction_form
 msgid ""
 "Look this transaction up in the OnePay transaction report and"
 "                               settle it if a matching payment is found."
@@ -123,51 +123,51 @@ msgstr ""
 "البحث عن هذه العملية في تقرير عمليات OnePay وتسويتها في حال العثور على عملية"
 " مطابقة."
 
-#. module: payment_onepay
-#: model:ir.model.fields.selection,name:payment_onepay.selection__payment_provider__code__musrefy_pay
-#: model:payment.provider,name:payment_onepay.payment_provider_musrefy_pay
+#. module: payment_onepay_ly
+#: model:ir.model.fields.selection,name:payment_onepay_ly.selection__payment_provider__code__musrefy_pay
+#: model:payment.provider,name:payment_onepay_ly.payment_provider_musrefy_pay
 msgid "Musrefy Pay"
 msgstr "مصرفي باي"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.payment_provider_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.payment_provider_form
 msgid "Mutual TLS"
 msgstr "التشفير المتبادل TLS"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
 msgid "No matching OnePay transaction was found for reference %s."
 msgstr "لم يتم العثور على عملية OnePay مطابقة للمرجع %s."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/controllers/main.py:0
+#: code:addons/payment_onepay_ly/controllers/main.py:0
 msgid "No transaction found matching the reference."
 msgstr "لم يتم العثور على عملية مطابقة لهذا المرجع."
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.inline_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.inline_form
 msgid "One-Time Password"
 msgstr "كلمة المرور لمرة واحدة"
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_transaction__onepay_session_id
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_transaction__onepay_session_id
 msgid "OnePay Session Token"
 msgstr "رمز جلسة OnePay"
 
-#. module: payment_onepay
-#: model:payment.method,name:payment_onepay.payment_method_onepay_wallet
+#. module: payment_onepay_ly
+#: model:payment.method,name:payment_onepay_ly.payment_method_onepay_wallet
 msgid "OnePay Wallet"
 msgstr "محفظة OnePay"
 
-#. module: payment_onepay
-#: model:ir.actions.server,name:payment_onepay.cron_onepay_reconcile_pending_ir_actions_server
+#. module: payment_onepay_ly
+#: model:ir.actions.server,name:payment_onepay_ly.cron_onepay_reconcile_pending_ir_actions_server
 msgid "OnePay: Reconcile pending transactions"
 msgstr "OnePay: تسوية العمليات المعلّقة"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.payment_provider_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.payment_provider_form
 msgid ""
 "Only used when the provider state is Enabled. Test transactions are sent\n"
 "                        over plain HTTPS, so nothing needs to be uploaded here to run in test mode."
@@ -175,8 +175,8 @@ msgstr ""
 "تُستخدم فقط عندما تكون حالة المزوّد \"مفعّل\". تُرسل عمليات الاختبار عبر "
 "HTTPS العادي، لذا لا حاجة لرفع أي ملف هنا للعمل في وضع الاختبار."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_ca_bundle
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_ca_bundle
 msgid ""
 "PEM CA bundle used to verify the gateway's certificate. Only used when the "
 "provider is enabled (production)."
@@ -184,8 +184,8 @@ msgstr ""
 "حزمة شهادات بصيغة PEM تُستخدم للتحقق من شهادة البوابة. تُستخدم فقط عندما "
 "يكون المزوّد مفعّلاً (بيئة الإنتاج)."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_cert
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_cert
 msgid ""
 "PEM client certificate for mutual TLS. Only used when the provider is "
 "enabled (production); test transactions are sent over plain HTTPS. Stored in"
@@ -196,8 +196,8 @@ msgstr ""
 "في قاعدة البيانات، لذا يمكن قراءتها من نسخة احتياطية لقاعدة البيانات أو "
 "لمخزن الملفات."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_key
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_key
 msgid ""
 "PEM private key matching the client certificate. Only used when the provider"
 " is enabled (production). Stored in the database, so it is readable from a "
@@ -207,103 +207,103 @@ msgstr ""
 "المزوّد مفعّلاً (بيئة الإنتاج). يُخزّن في قاعدة البيانات، لذا يمكن قراءته من"
 " نسخة احتياطية لقاعدة البيانات أو لمخزن الملفات."
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_pin
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_pin
 msgid "PIN"
 msgstr "الرقم السري"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-javascript
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
-#: code:addons/payment_onepay/static/src/js/payment_form.js:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/static/src/js/payment_form.js:0
 msgid "Please enter the one-time password."
 msgstr "يرجى إدخال كلمة المرور لمرة واحدة."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-javascript
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
-#: code:addons/payment_onepay/static/src/js/payment_form.js:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/static/src/js/payment_form.js:0
 msgid "Please enter your identity card number."
 msgstr "يرجى إدخال رقم بطاقتك الشخصية."
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_report_path
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_report_path
 msgid "Report Path"
 msgstr "مسار التقارير"
 
-#. module: payment_onepay
-#: model:ir.model.fields.selection,name:payment_onepay.selection__payment_provider__code__sahara_pay
-#: model:payment.provider,name:payment_onepay.payment_provider_sahara_pay
+#. module: payment_onepay_ly
+#: model:ir.model.fields.selection,name:payment_onepay_ly.selection__payment_provider__code__sahara_pay
+#: model:payment.provider,name:payment_onepay_ly.payment_provider_sahara_pay
 msgid "Sahara Pay"
 msgstr "صحارى باي"
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_signin_path
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_signin_path
 msgid "Sign-in Path"
 msgstr "مسار تسجيل الدخول"
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
 msgid "The %s could not be decoded."
 msgstr "تعذّر فك ترميز %s."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
 msgid "The %s is not in PEM format."
 msgstr "%s ليست بصيغة PEM."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_provider.py:0
+#: code:addons/payment_onepay_ly/models/payment_provider.py:0
 msgid "The OnePay API returned an unreadable response."
 msgstr "أعادت واجهة OnePay استجابة غير مقروءة."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_auth_user_type
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_auth_user_type
 msgid "The authentication user type expected by the gateway."
 msgstr "نوع مستخدم المصادقة الذي تتوقعه البوابة."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/controllers/main.py:0
+#: code:addons/payment_onepay_ly/controllers/main.py:0
 msgid "The payment could not be confirmed. Please try again."
 msgstr "تعذّر تأكيد عملية الدفع. يرجى المحاولة مرة أخرى."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
 msgid "The payment could not be initiated."
 msgstr "تعذّر بدء عملية الدفع."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/controllers/main.py:0
+#: code:addons/payment_onepay_ly/controllers/main.py:0
 msgid "The payment could not be initiated. Please try again."
 msgstr "تعذّر بدء عملية الدفع. يرجى المحاولة مرة أخرى."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
 msgid "The payment was declined."
 msgstr "تم رفض عملية الدفع."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_provider_id
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_provider_id
 msgid "The provider id to authenticate against, provided by the gateway."
 msgstr "معرّف المزوّد المستخدم في المصادقة، تصدره البوابة."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_base_url
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_base_url
 msgid ""
 "The root URL of the OnePay API. Test and production are different URLs."
 msgstr "الرابط الجذري لواجهة OnePay. لبيئتي الاختبار والإنتاج روابط مختلفة."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_transaction__onepay_session_id
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_transaction__onepay_session_id
 msgid ""
 "The short-lived bearer token returned by the gateway when the payment was "
 "initiated. It authenticates the OTP confirmation call."
@@ -311,46 +311,46 @@ msgstr ""
 "الرمز المؤقت الذي تصدره البوابة عند بدء عملية الدفع، ويُستخدم لتوثيق طلب "
 "تأكيد كلمة المرور لمرة واحدة."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_pin
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_pin
 msgid "The sign-in PIN provided by the gateway."
 msgstr "الرقم السري لتسجيل الدخول الصادر عن البوابة."
 
-#. module: payment_onepay
-#: model:ir.model.fields,help:payment_onepay.field_payment_provider__onepay_user_id
+#. module: payment_onepay_ly
+#: model:ir.model.fields,help:payment_onepay_ly.field_payment_provider__onepay_user_id
 msgid "The sign-in user id provided by the gateway."
 msgstr "معرّف المستخدم لتسجيل الدخول الصادر عن البوابة."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
 msgid "This payment has already been initiated."
 msgstr "تم بدء هذه العملية بالفعل."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
 msgid "This payment has not been initiated yet."
 msgstr "لم يتم بدء هذه العملية بعد."
 
-#. module: payment_onepay
+#. module: payment_onepay_ly
 #. odoo-python
-#: code:addons/payment_onepay/models/payment_transaction.py:0
+#: code:addons/payment_onepay_ly/models/payment_transaction.py:0
 msgid "This payment is no longer awaiting confirmation."
 msgstr "لم تعد هذه العملية بانتظار التأكيد."
 
-#. module: payment_onepay
-#: model:ir.model.fields,field_description:payment_onepay.field_payment_provider__onepay_user_id
+#. module: payment_onepay_ly
+#: model:ir.model.fields,field_description:payment_onepay_ly.field_payment_provider__onepay_user_id
 msgid "User ID"
 msgstr "معرّف المستخدم"
 
-#. module: payment_onepay
-#: model_terms:ir.ui.view,arch_db:payment_onepay.inline_form
+#. module: payment_onepay_ly
+#: model_terms:ir.ui.view,arch_db:payment_onepay_ly.inline_form
 msgid "Your identity card number"
 msgstr "رقم بطاقتك الشخصية"
 
-#. module: payment_onepay
-#: model:ir.model.fields.selection,name:payment_onepay.selection__payment_provider__code__yussor_online
-#: model:payment.provider,name:payment_onepay.payment_provider_yussor_online
+#. module: payment_onepay_ly
+#: model:ir.model.fields.selection,name:payment_onepay_ly.selection__payment_provider__code__yussor_online
+#: model:payment.provider,name:payment_onepay_ly.payment_provider_yussor_online
 msgid "Yussor Online"
 msgstr "يسر أونلاين"
