@@ -28,7 +28,7 @@ class AdfaliController(http.Controller):
             raise ValidationError(_("No transaction found matching the reference."))
         return tx_sudo
 
-    @http.route(_init_url, type='jsonrpc', auth='public')
+    @http.route(_init_url, type='json', auth='public')
     def adfali_init(self, reference, mobile, **kwargs):
         """Initiate the payment and trigger the PIN SMS.
 
@@ -50,7 +50,7 @@ class AdfaliController(http.Controller):
             return {'error': _("The payment could not be initiated. Please try again.")}
         return {'otp_length': otp_length}
 
-    @http.route(_confirm_url, type='jsonrpc', auth='public')
+    @http.route(_confirm_url, type='json', auth='public')
     def adfali_confirm(self, reference, otp, **kwargs):
         """Confirm the payment with the customer's PIN.
 

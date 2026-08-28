@@ -1,6 +1,6 @@
 {
     'name': 'Payment Provider: Adfali',
-    'version': '19.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Payment Providers',
     'summary': "A payment provider for Adfali mobile wallet (Libya).",
     'description': """
@@ -24,7 +24,7 @@ confirms the payment with it.
     'uninstall_hook': 'uninstall_hook',
     'assets': {
         'web.assets_frontend': [
-            'payment_adfali/static/src/interactions/**/*',
+            'payment_adfali/static/src/js/payment_form.js',
         ],
     },
     'application': False,

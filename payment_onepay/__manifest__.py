@@ -1,6 +1,6 @@
 {
     'name': 'Payment Provider: OnePay',
-    'version': '19.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Payment Providers',
     'summary': "A payment provider for OnePay mobile wallets (Libya).",
     'description': """
@@ -28,7 +28,7 @@ reconciled against OnePay's transaction report.
     'uninstall_hook': 'uninstall_hook',
     'assets': {
         'web.assets_frontend': [
-            'payment_onepay/static/src/interactions/**/*',
+            'payment_onepay/static/src/js/payment_form.js',
         ],
     },
     'application': False,

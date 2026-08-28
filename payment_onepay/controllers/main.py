@@ -30,7 +30,7 @@ class OnePayController(http.Controller):
             raise ValidationError(_("No transaction found matching the reference."))
         return tx_sudo
 
-    @http.route(_init_url, type='jsonrpc', auth='public')
+    @http.route(_init_url, type='json', auth='public')
     def onepay_init(self, reference, identity_card, **kwargs):
         """Initiate the payment and trigger the OTP SMS.
 
@@ -52,7 +52,7 @@ class OnePayController(http.Controller):
             return {'error': _("The payment could not be initiated. Please try again.")}
         return {'otp_length': otp_length}
 
-    @http.route(_confirm_url, type='jsonrpc', auth='public')
+    @http.route(_confirm_url, type='json', auth='public')
     def onepay_confirm(self, reference, otp, **kwargs):
         """Confirm the payment with the customer's OTP.
 
