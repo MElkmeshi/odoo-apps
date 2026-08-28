@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inline form: identity card first, then the OTP step once the SMS is sent. -->
+    <template id="inline_form">
+        <div name="o_onepay_form" class="o_onepay_form">
+
+            <div name="o_onepay_identity_step">
+                <label for="o_onepay_identity_card" class="form-label">
+                    Identity Card Number
+                </label>
+                <input type="text"
+                       name="o_onepay_identity_card"
+                       class="form-control"
+                       autocomplete="off"
+                       inputmode="numeric"
+                       placeholder="Your identity card number"/>
+                <small class="form-text text-muted">
+                    A one-time password will be sent to the mobile number registered with your
+                    wallet.
+                </small>
+            </div>
+
+            <div name="o_onepay_otp_step" class="d-none mt-2">
+                <label for="o_onepay_otp" class="form-label">One-Time Password</label>
+                <input type="text"
+                       name="o_onepay_otp"
+                       class="form-control"
+                       autocomplete="one-time-code"
+                       inputmode="numeric"/>
+                <button type="button"
+                        name="o_onepay_confirm_button"
+                        class="btn btn-primary mt-2">
+                    Confirm Payment
+                </button>
+            </div>
+
+            <div name="o_onepay_error" class="alert alert-danger d-none mt-2" role="alert"/>
+        </div>
+    </template>
+
+</odoo>

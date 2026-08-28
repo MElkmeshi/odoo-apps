@@ -1,0 +1,142 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#1D4ED8;">Adfali Payment Provider</h2>
+        <h3 class="oe_slogan" style="color:#64748b;">Take Adfali mobile wallet payments in Libya &mdash; on the checkout page, without leaving it</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                The customer types their mobile number, Adfali texts them a 4-digit PIN, they
+                type it in, and the order is paid. No redirect to a gateway page, no return URL
+                to configure, no webhook to expose. It is an ordinary Odoo payment provider:
+                it works anywhere <code>payment</code> works &mdash; eCommerce checkout, customer
+                portal invoices, subscriptions and payment links.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">How a payment goes through</h2>
+        <div class="oe_span12">
+            <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#1D4ED8;"><b>1</b></td>
+                    <td style="padding:10px 24px;">Customer picks <b>Adfali</b> at checkout and enters their mobile number.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#1D4ED8;"><b>2</b></td>
+                    <td style="padding:10px 24px;">Odoo opens the payment with Adfali. The transaction becomes <b>Pending</b>.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#1D4ED8;"><b>3</b></td>
+                    <td style="padding:10px 24px;">Adfali sends the customer a 4-digit PIN by SMS.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#1D4ED8;"><b>4</b></td>
+                    <td style="padding:10px 24px;">The customer enters the PIN. On acceptance the transaction is set <b>Done</b> and the order confirms.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you get</h2>
+
+        <div class="oe_span6">
+            <h3 style="color:#1D4ED8;">Errors the customer can act on</h3>
+            <p>
+                A wrong service password, a wrong merchant PIN, an amount over the wallet
+                limit, an unknown mobile number and an insufficient balance are each reported
+                as their own message, in the customer's language. A refused payment leaves the
+                transaction in draft, so the customer can correct their number and try again on
+                the same page.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#1D4ED8;">Mobile numbers, however they are typed</h3>
+            <p>
+                <code>0912345678</code>, <code>912345678</code> and <code>+218912345678</code>
+                are all sent to Adfali as the same international number. Customers do not have
+                to guess the format, and you do not field the support call when they guess
+                wrong.
+            </p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3 style="color:#1D4ED8;">Credentials kept out of reach</h3>
+            <p>
+                The merchant PIN and service password are restricted to Settings administrators
+                and are never rendered to the customer's browser. Gateway responses can echo
+                merchant credentials, so on an API error the body is written to the server log
+                and only a generic message reaches the page.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#1D4ED8;">A failed line is never a lost payment</h3>
+            <p>
+                If the network drops while the PIN is being confirmed, the transaction stays
+                pending and retryable rather than being marked failed &mdash; a payment Adfali
+                may have taken is not silently written off. Only a PIN that Adfali answers and
+                rejects moves the transaction to error.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Setting it up</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                Go to <b>Invoicing &rsaquo; Configuration &rsaquo; Payment Providers</b>, open
+                <b>Adfali</b>, and fill in the four values Adfali issues you: the
+                <b>API Base URL</b>, your <b>Merchant Mobile</b>, your <b>Merchant PIN</b> and
+                your <b>Service Password</b>. Set the provider to Enabled and publish it. That
+                is the whole configuration.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Before you install</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                You need a merchant account with <b>Adfali</b> and the API credentials issued
+                with it. This module is the Odoo side of that integration; it does not obtain
+                the account for you.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                Payments are taken in <b>Libyan Dinar (LYD)</b> only, the sole currency the
+                gateway accepts. The wallet does not support refunds, saved payment methods,
+                express checkout or manual capture through the API, so those Odoo features stay
+                off for this provider &mdash; refunds are handled outside Odoo.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                Adfali returns no transaction identifier of its own. The gateway session id is
+                recorded as the transaction's provider reference, and it is what support uses
+                to reconcile an Odoo transaction against the gateway.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Also available</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                <b>OnePay Payment Provider</b> &mdash; the same inline wallet checkout for
+                OnePay and its branded deployments (Musrefy Pay, Yussor Online, Sahara Pay).
+                Independent of this module; install either or both.
+            </p>
+        </div>
+    </div>
+</section>

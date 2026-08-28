@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Adfali Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group invisible="code != 'adfali'"
+                       name="adfali_credentials"
+                       string="Gateway Credentials">
+                    <field name="adfali_base_url"
+                           required="code == 'adfali' and state != 'disabled'"
+                           placeholder="https://adfali.example.ly/service.asmx"/>
+                    <field name="adfali_merchant_mobile"
+                           required="code == 'adfali' and state != 'disabled'"
+                           placeholder="091XXXXXXX"/>
+                    <field name="adfali_merchant_pin"
+                           required="code == 'adfali' and state != 'disabled'"
+                           password="True"/>
+                    <field name="adfali_service_password"
+                           required="code == 'adfali' and state != 'disabled'"
+                           password="True"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

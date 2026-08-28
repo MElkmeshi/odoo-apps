@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+        One record per brand. They share this module's implementation and
+        differ only in credentials and in the identity card prefix applied to
+        short card numbers (see const.BRAND_PREFIXES).
+    -->
+
+    <record id="payment_provider_onepay" model="payment.provider">
+        <field name="name">OnePay</field>
+        <field name="code">onepay</field>
+        <field name="image_128" type="base64" file="payment_onepay/static/description/icon.png"/>
+        <field name="inline_form_view_id" ref="inline_form"/>
+        <field name="allow_tokenization">False</field>
+        <field name="allow_express_checkout">False</field>
+        <field name="state">disabled</field>
+        <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('payment_method_onepay_wallet'),
+                     ])]"
+        />
+    </record>
+
+    <record id="payment_provider_musrefy_pay" model="payment.provider">
+        <field name="name">Musrefy Pay</field>
+        <field name="code">musrefy_pay</field>
+        <field name="image_128" type="base64" file="payment_onepay/static/description/icon.png"/>
+        <field name="inline_form_view_id" ref="inline_form"/>
+        <field name="allow_tokenization">False</field>
+        <field name="allow_express_checkout">False</field>
+        <field name="state">disabled</field>
+        <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('payment_method_onepay_wallet'),
+                     ])]"
+        />
+    </record>
+
+    <record id="payment_provider_yussor_online" model="payment.provider">
+        <field name="name">Yussor Online</field>
+        <field name="code">yussor_online</field>
+        <field name="image_128" type="base64" file="payment_onepay/static/description/icon.png"/>
+        <field name="inline_form_view_id" ref="inline_form"/>
+        <field name="allow_tokenization">False</field>
+        <field name="allow_express_checkout">False</field>
+        <field name="state">disabled</field>
+        <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('payment_method_onepay_wallet'),
+                     ])]"
+        />
+    </record>
+
+    <record id="payment_provider_sahara_pay" model="payment.provider">
+        <field name="name">Sahara Pay</field>
+        <field name="code">sahara_pay</field>
+        <field name="image_128" type="base64" file="payment_onepay/static/description/icon.png"/>
+        <field name="inline_form_view_id" ref="inline_form"/>
+        <field name="allow_tokenization">False</field>
+        <field name="allow_express_checkout">False</field>
+        <field name="state">disabled</field>
+        <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('payment_method_onepay_wallet'),
+                     ])]"
+        />
+    </record>
+
+</odoo>

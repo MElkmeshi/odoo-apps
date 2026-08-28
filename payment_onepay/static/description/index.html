@@ -1,0 +1,161 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#7C3AED;">OnePay Payment Provider</h2>
+        <h3 class="oe_slogan" style="color:#64748b;">OnePay, Musrefy Pay, Yussor Online and Sahara Pay &mdash; four Libyan wallets, one module</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                The customer types their identity card number, the gateway texts them a 6-digit
+                one-time password, they type it in, and the order is paid &mdash; all on the
+                checkout page. It is an ordinary Odoo payment provider: it works anywhere
+                <code>payment</code> works, in eCommerce checkout, portal invoices,
+                subscriptions and payment links.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Four providers, not four modules</h2>
+        <div class="oe_span12">
+            <p class="text-center oe_mb32" style="font-size:15px;">
+                The branded deployments all speak the same API and differ only in their
+                credentials and in the prefix applied to a short identity card number. Each is
+                installed as its own payment provider record with its own credentials, so you
+                can enable one, some or all of them side by side.
+            </p>
+            <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
+                <tr>
+                    <th style="padding:8px 24px;">Provider</th>
+                    <th style="padding:8px 24px;">Prefix added to a 7-digit card</th>
+                </tr>
+                <tr><td style="padding:6px 24px;">OnePay</td><td style="padding:6px 24px;">&mdash;</td></tr>
+                <tr><td style="padding:6px 24px;">Musrefy Pay</td><td style="padding:6px 24px;"><code>11</code></td></tr>
+                <tr><td style="padding:6px 24px;">Yussor Online</td><td style="padding:6px 24px;"><code>33</code></td></tr>
+                <tr><td style="padding:6px 24px;">Sahara Pay</td><td style="padding:6px 24px;"><code>66</code></td></tr>
+            </table>
+            <p class="text-center oe_mt32" style="font-size:15px;">
+                Customers who type their full card number are unaffected; only short numbers
+                are completed.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Pending payments settle themselves</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                A customer who closes the tab before entering the OTP &mdash; or loses signal
+                halfway through &mdash; leaves a transaction pending while the money may already
+                have moved. An hourly scheduled action looks each pending transaction up in
+                OnePay's own transaction report and settles the ones the gateway confirms.
+                Transactions younger than ten minutes are left alone so the sweep never races a
+                customer still typing their OTP, and the sweep looks no further back than a day.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                Any pending transaction also carries a <b>Check with OnePay</b> button, so
+                support can settle one on the spot without waiting for the next run.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you get</h2>
+
+        <div class="oe_span6">
+            <h3 style="color:#7C3AED;">Mutual TLS in production</h3>
+            <p>
+                Upload the PEM client certificate, private key and CA bundle the gateway issues
+                you and enabled providers authenticate over mutual TLS. The material is written
+                to temporary files with mode 0600 for the length of a single request and removed
+                afterwards, even if the request raises. Providers left in test mode use plain
+                HTTPS, so you can develop without production certificates.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#7C3AED;">Configuration errors caught at save time</h3>
+            <p>
+                Enabling a provider with credentials missing fails with a message naming the
+                empty fields, and TLS material that is not PEM is refused when you upload it
+                &mdash; not discovered by a customer at checkout.
+            </p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3 style="color:#7C3AED;">Credentials kept out of reach</h3>
+            <p>
+                The sign-in PIN, the client certificate and the private key are restricted to
+                Settings administrators and never reach the customer's browser. Gateway errors
+                are written to the server log; the checkout page shows only a message the
+                customer can act on.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#7C3AED;">Endpoints you can override</h3>
+            <p>
+                The gateway hands different API paths to different merchants, so the sign-in,
+                init, complete and report paths are all editable per provider. Sensible
+                defaults are filled in, and most merchants never touch them.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Setting it up</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                Go to <b>Invoicing &rsaquo; Configuration &rsaquo; Payment Providers</b> and open
+                the provider you were issued credentials for. Fill in the <b>API Base URL</b>,
+                <b>User ID</b>, <b>PIN</b> and <b>Gateway Provider ID</b>, attach your TLS
+                material if you are going live, then enable and publish it. Repeat for each
+                brand you accept.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Before you install</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                You need a merchant account with OnePay or one of its branded deployments, and
+                the credentials issued with it. This module is the Odoo side of that
+                integration; it does not obtain the account for you.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                Payments are taken in <b>Libyan Dinar (LYD)</b> only, the sole currency the
+                gateway accepts. The wallet does not support refunds, saved payment methods,
+                express checkout or manual capture through the API, so those Odoo features stay
+                off for these providers &mdash; refunds are handled outside Odoo.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                The certificate and private key are stored in the database like any other Odoo
+                binary field, which means they are readable from a database dump or filestore
+                backup. Treat your backups accordingly.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Also available</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                <b>Adfali Payment Provider</b> &mdash; the same inline wallet checkout for the
+                Adfali mobile wallet. Independent of this module; install either or both.
+            </p>
+        </div>
+    </div>
+</section>

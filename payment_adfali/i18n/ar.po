@@ -1,0 +1,228 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_adfali
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e\n"
+"POT-Creation-Date: 2026-07-23 00:00+0000\n"
+"PO-Revision-Date: 2026-07-23 00:00+0000\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: payment_adfali
+#: model_terms:ir.ui.view,arch_db:payment_adfali.inline_form
+#: model_terms:ir.ui.view,arch_db:payment_adfali.payment_provider_form
+msgid "091XXXXXXX"
+msgstr "091XXXXXXX"
+
+#. module: payment_adfali
+#: model_terms:ir.ui.view,arch_db:payment_adfali.inline_form
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                    The mobile number registered with your Adfali wallet.\n"
+"                </small>"
+msgstr ""
+"<small class=\"form-text text-muted\">\n"
+"                    رقم الهاتف المسجّل لدى محفظة أدفعلي الخاصة بك.\n"
+"                </small>"
+
+#. module: payment_adfali
+#: model:ir.model.fields,field_description:payment_adfali.field_payment_provider__adfali_base_url
+msgid "API Base URL"
+msgstr "رابط واجهة البرمجة الأساسي"
+
+#. module: payment_adfali
+#: model:ir.model.fields.selection,name:payment_adfali.selection__payment_provider__code__adfali
+#: model:payment.provider,name:payment_adfali.payment_provider_adfali
+msgid "Adfali"
+msgstr "أدفعلي"
+
+#. module: payment_adfali
+#: model:ir.model.fields,field_description:payment_adfali.field_payment_transaction__adfali_session_id
+msgid "Adfali Session ID"
+msgstr "معرّف جلسة أدفعلي"
+
+#. module: payment_adfali
+#: model:payment.method,name:payment_adfali.payment_method_adfali_wallet
+msgid "Adfali Wallet"
+msgstr "محفظة أدفعلي"
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_provider.py:0
+msgid "An error occurred when communicating with the Adfali API."
+msgstr "حدث خطأ أثناء الاتصال بواجهة أدفعلي."
+
+#. module: payment_adfali
+#: model_terms:ir.ui.view,arch_db:payment_adfali.inline_form
+msgid "Confirm Payment"
+msgstr "تأكيد الدفع"
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_provider.py:0
+msgid "Could not establish a connection to the Adfali API."
+msgstr "تعذّر الاتصال بواجهة أدفعلي."
+
+#. module: payment_adfali
+#: model_terms:ir.ui.view,arch_db:payment_adfali.payment_provider_form
+msgid "Gateway Credentials"
+msgstr "بيانات اعتماد البوابة"
+
+#. module: payment_adfali
+#: model:ir.model.fields,field_description:payment_adfali.field_payment_provider__adfali_merchant_mobile
+msgid "Merchant Mobile"
+msgstr "رقم هاتف التاجر"
+
+#. module: payment_adfali
+#: model:ir.model.fields,field_description:payment_adfali.field_payment_provider__adfali_merchant_pin
+msgid "Merchant PIN"
+msgstr "الرقم السري للتاجر"
+
+#. module: payment_adfali
+#: model_terms:ir.ui.view,arch_db:payment_adfali.inline_form
+msgid "Mobile Number"
+msgstr "رقم الهاتف"
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/const.py:0
+msgid "No Adfali account was found for this mobile number."
+msgstr "لم يتم العثور على حساب أدفعلي لهذا الرقم."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/controllers/main.py:0
+msgid "No transaction found matching the reference."
+msgstr "لم يتم العثور على عملية مطابقة لهذا المرجع."
+
+#. module: payment_adfali
+#: model_terms:ir.ui.view,arch_db:payment_adfali.inline_form
+msgid "PIN"
+msgstr "الرقم السري"
+
+#. module: payment_adfali
+#. odoo-javascript
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_transaction.py:0
+#: code:addons/payment_adfali/static/src/js/payment_form.js:0
+msgid "Please enter the PIN sent to your mobile number."
+msgstr "يرجى إدخال الرقم السري المرسل إلى هاتفك."
+
+#. module: payment_adfali
+#. odoo-javascript
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_transaction.py:0
+#: code:addons/payment_adfali/static/src/js/payment_form.js:0
+msgid "Please enter your mobile number."
+msgstr "يرجى إدخال رقم هاتفك."
+
+#. module: payment_adfali
+#: model:ir.model.fields,field_description:payment_adfali.field_payment_provider__adfali_service_password
+msgid "Service Password"
+msgstr "كلمة مرور الخدمة"
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_provider.py:0
+msgid "The Adfali API returned an unreadable response."
+msgstr "أعادت واجهة أدفعلي استجابة غير مقروءة."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/const.py:0
+msgid "The Adfali merchant PIN is incorrect."
+msgstr "الرقم السري للتاجر لدى أدفعلي غير صحيح."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/const.py:0
+msgid "The Adfali service password is incorrect."
+msgstr "كلمة مرور خدمة أدفعلي غير صحيحة."
+
+#. module: payment_adfali
+#: model:ir.model.fields,help:payment_adfali.field_payment_provider__adfali_merchant_pin
+msgid "The PIN of the merchant wallet."
+msgstr "الرقم السري لمحفظة التاجر."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_transaction.py:0
+msgid "The PIN was rejected. The payment was not completed."
+msgstr "تم رفض الرقم السري. لم تكتمل عملية الدفع."
+
+#. module: payment_adfali
+#: model:ir.model.fields,help:payment_adfali.field_payment_provider__adfali_base_url
+msgid "The URL of the Adfali SOAP endpoint."
+msgstr "رابط نقطة نهاية SOAP الخاصة بأدفعلي."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/const.py:0
+msgid "The amount exceeds the transaction limits of your wallet."
+msgstr "المبلغ يتجاوز حدود العمليات المسموح بها لمحفظتك."
+
+#. module: payment_adfali
+#: model:ir.model.fields,help:payment_adfali.field_payment_provider__adfali_merchant_mobile
+msgid "The mobile number of the merchant wallet, as registered with Adfali."
+msgstr "رقم هاتف محفظة التاجر كما هو مسجّل لدى أدفعلي."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/controllers/main.py:0
+msgid "The payment could not be confirmed. Please try again."
+msgstr "تعذّر تأكيد عملية الدفع. يرجى المحاولة مرة أخرى."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_provider.py:0
+msgid "The payment could not be initiated."
+msgstr "تعذّر بدء عملية الدفع."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/controllers/main.py:0
+msgid "The payment could not be initiated. Please try again."
+msgstr "تعذّر بدء عملية الدفع. يرجى المحاولة مرة أخرى."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/const.py:0
+msgid "The payment failed. Please check your wallet balance."
+msgstr "فشلت عملية الدفع. يرجى التحقق من رصيد محفظتك."
+
+#. module: payment_adfali
+#: model:ir.model.fields,help:payment_adfali.field_payment_provider__adfali_service_password
+msgid "The service password issued by Adfali for API access."
+msgstr "كلمة مرور الخدمة الصادرة عن أدفعلي للوصول إلى الواجهة."
+
+#. module: payment_adfali
+#: model:ir.model.fields,help:payment_adfali.field_payment_transaction__adfali_session_id
+msgid ""
+"The session id returned by the gateway when the payment was initiated. It "
+"identifies the payment during PIN confirmation."
+msgstr ""
+"معرّف الجلسة الذي تصدره البوابة عند بدء عملية الدفع، ويُستخدم لتمييز العملية"
+" أثناء تأكيد الرقم السري."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_transaction.py:0
+msgid "This payment has already been initiated."
+msgstr "تم بدء هذه العملية بالفعل."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_transaction.py:0
+msgid "This payment has not been initiated yet."
+msgstr "لم يتم بدء هذه العملية بعد."
+
+#. module: payment_adfali
+#. odoo-python
+#: code:addons/payment_adfali/models/payment_transaction.py:0
+msgid "This payment is no longer awaiting confirmation."
+msgstr "لم تعد هذه العملية بانتظار التأكيد."

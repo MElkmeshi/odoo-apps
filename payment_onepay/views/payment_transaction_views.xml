@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_transaction_form" model="ir.ui.view">
+        <field name="name">OnePay Transaction Form</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_onepay_check"
+                        type="object"
+                        string="Check with OnePay"
+                        help="Look this transaction up in the OnePay transaction report and
+                              settle it if a matching payment is found."
+                        invisible="state != 'pending' or provider_code not in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay']"/>
+            </header>
+        </field>
+    </record>
+
+</odoo>

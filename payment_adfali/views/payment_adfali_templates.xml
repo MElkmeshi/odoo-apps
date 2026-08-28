@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inline form: mobile number first, then the PIN step once the SMS is sent. -->
+    <template id="inline_form">
+        <div name="o_adfali_form" class="o_adfali_form">
+
+            <div name="o_adfali_mobile_step">
+                <label for="o_adfali_mobile" class="form-label">Mobile Number</label>
+                <input type="tel"
+                       name="o_adfali_mobile"
+                       class="form-control"
+                       autocomplete="tel"
+                       inputmode="tel"
+                       placeholder="091XXXXXXX"/>
+                <small class="form-text text-muted">
+                    The mobile number registered with your Adfali wallet.
+                </small>
+            </div>
+
+            <div name="o_adfali_otp_step" class="d-none mt-2">
+                <label for="o_adfali_otp" class="form-label">PIN</label>
+                <input type="text"
+                       name="o_adfali_otp"
+                       class="form-control"
+                       autocomplete="one-time-code"
+                       inputmode="numeric"/>
+                <button type="button"
+                        name="o_adfali_confirm_button"
+                        class="btn btn-primary mt-2">
+                    Confirm Payment
+                </button>
+            </div>
+
+            <div name="o_adfali_error" class="alert alert-danger d-none mt-2" role="alert"/>
+        </div>
+    </template>
+
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">OnePay Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group invisible="code not in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay']"
+                       name="onepay_credentials"
+                       string="Gateway Credentials">
+                    <field name="onepay_base_url"
+                           required="code in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay'] and state != 'disabled'"
+                           placeholder="https://gateway.example.ly"/>
+                    <field name="onepay_user_id"
+                           required="code in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay'] and state != 'disabled'"/>
+                    <field name="onepay_pin"
+                           required="code in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay'] and state != 'disabled'"
+                           password="True"/>
+                    <field name="onepay_provider_id"
+                           required="code in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay'] and state != 'disabled'"/>
+                    <field name="onepay_auth_user_type"/>
+                </group>
+
+                <group invisible="code not in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay']"
+                       name="onepay_endpoints"
+                       string="API Endpoints">
+                    <field name="onepay_signin_path"/>
+                    <field name="onepay_init_path"/>
+                    <field name="onepay_complete_path"/>
+                    <field name="onepay_report_path"/>
+                </group>
+
+                <group invisible="code not in ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay']"
+                       name="onepay_tls"
+                       string="Mutual TLS">
+                    <div colspan="2" class="text-muted mb-2">
+                        Only used when the provider state is Enabled. Test transactions are sent
+                        over plain HTTPS, so nothing needs to be uploaded here to run in test mode.
+                    </div>
+                    <field name="onepay_cert" filename="onepay_cert_filename"/>
+                    <field name="onepay_cert_filename" invisible="1"/>
+                    <field name="onepay_key" filename="onepay_key_filename"/>
+                    <field name="onepay_key_filename" invisible="1"/>
+                    <field name="onepay_ca_bundle" filename="onepay_ca_bundle_filename"/>
+                    <field name="onepay_ca_bundle_filename" invisible="1"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
