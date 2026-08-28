@@ -10,7 +10,7 @@ from werkzeug.urls import url_join
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-from odoo.addons.payment_onepay import const
+from odoo.addons.payment_onepay_ly import const
 
 
 _logger = logging.getLogger(__name__)
