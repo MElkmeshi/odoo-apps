@@ -17,7 +17,7 @@ reconciled against OnePay's transaction report.
     'support': 'elkmeshi2002@gmail.com',
     'depends': ['payment'],
     'data': [
-        'views/payment_onepay_templates.xml',
+        'views/payment_onepay_ly_templates.xml',
         'views/payment_provider_views.xml',
         'views/payment_transaction_views.xml',
         'data/payment_method_data.xml',
@@ -28,7 +28,7 @@ reconciled against OnePay's transaction report.
     'uninstall_hook': 'uninstall_hook',
     'assets': {
         'web.assets_frontend': [
-            'payment_onepay/static/src/interactions/**/*',
+            'payment_onepay_ly/static/src/interactions/**/*',
         ],
     },
     'application': False,

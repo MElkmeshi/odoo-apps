@@ -5,7 +5,7 @@ from unittest.mock import patch
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.payment_onepay.tests.common import OnePayCommon
+from odoo.addons.payment_onepay_ly.tests.common import OnePayCommon
 
 
 @tagged('post_install', '-at_install')
@@ -180,7 +180,7 @@ class TestOnePay(OnePayCommon):
             captured.update(kwargs)
             return Response()
 
-        patcher = patch('odoo.addons.payment_onepay.models.payment_provider.requests.post', _post)
+        patcher = patch('odoo.addons.payment_onepay_ly.models.payment_provider.requests.post', _post)
         patcher.start()
         self.addCleanup(patcher.stop)
         return captured

@@ -66,7 +66,7 @@ patch(PaymentForm.prototype, {
         }
 
         this._onepayHideError(form);
-        const result = await rpc('/payment/onepay/init', {
+        const result = await rpc('/payment/onepay_ly/init', {
             reference: processingValues.reference,
             identity_card: identityCard,
         });
@@ -119,7 +119,7 @@ patch(PaymentForm.prototype, {
 
             confirmButton.disabled = true;
             this._onepayHideError(form);
-            const result = await rpc('/payment/onepay/confirm', { reference, otp });
+            const result = await rpc('/payment/onepay_ly/confirm', { reference, otp });
 
             if (result.error) {
                 this._onepayShowError(form, result.error);

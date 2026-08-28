@@ -4,15 +4,15 @@ from odoo import _, http
 from odoo.exceptions import ValidationError
 from odoo.http import request
 
-from odoo.addons.payment_onepay import const
+from odoo.addons.payment_onepay_ly import const
 
 
 _logger = logging.getLogger(__name__)
 
 
 class OnePayController(http.Controller):
-    _init_url = '/payment/onepay/init'
-    _confirm_url = '/payment/onepay/confirm'
+    _init_url = '/payment/onepay_ly/init'
+    _confirm_url = '/payment/onepay_ly/confirm'
 
     def _get_transaction(self, reference):
         """Resolve the transaction the customer is paying.
