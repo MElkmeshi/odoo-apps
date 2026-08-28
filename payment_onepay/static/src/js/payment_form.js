@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { _t } from '@web/core/l10n/translation';
-import { rpc } from '@web/core/network/rpc';
+import { jsonrpc } from "@web/core/network/rpc_service";
 import paymentForm from '@payment/js/payment_form';
 
 const ONEPAY_CODES = ['onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay'];
@@ -66,7 +66,7 @@ paymentForm.include({
         }
 
         this._onepayHideError(form);
-        const result = await rpc('/payment/onepay/init', {
+        const result = await jsonrpc('/payment/onepay/init', {
             reference: processingValues.reference,
             identity_card: identityCard,
         });
@@ -117,7 +117,7 @@ paymentForm.include({
 
             confirmButton.disabled = true;
             this._onepayHideError(form);
-            const result = await rpc('/payment/onepay/confirm', { reference, otp });
+            const result = await jsonrpc('/payment/onepay/confirm', { reference, otp });
 
             if (result.error) {
                 this._onepayShowError(form, result.error);

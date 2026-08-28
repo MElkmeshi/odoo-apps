@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { _t } from '@web/core/l10n/translation';
-import { rpc } from '@web/core/network/rpc';
+import { jsonrpc } from "@web/core/network/rpc_service";
 import paymentForm from '@payment/js/payment_form';
 
 paymentForm.include({
@@ -64,7 +64,7 @@ paymentForm.include({
         }
 
         this._adfaliHideError(form);
-        const result = await rpc('/payment/adfali/init', {
+        const result = await jsonrpc('/payment/adfali/init', {
             reference: processingValues.reference,
             mobile: mobile,
         });
@@ -115,7 +115,7 @@ paymentForm.include({
 
             confirmButton.disabled = true;
             this._adfaliHideError(form);
-            const result = await rpc('/payment/adfali/confirm', { reference, otp });
+            const result = await jsonrpc('/payment/adfali/confirm', { reference, otp });
 
             if (result.error) {
                 this._adfaliShowError(form, result.error);
