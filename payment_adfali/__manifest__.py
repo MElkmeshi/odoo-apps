@@ -1,8 +1,6 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 {
     'name': 'Payment Provider: Adfali',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Accounting/Payment Providers',
     'summary': "A payment provider for Adfali mobile wallet (Libya).",
     'description': """
@@ -13,7 +11,8 @@ Integrates the Adfali mobile wallet with Odoo over its SOAP API.
 The customer enters their mobile number, receives a 4-digit PIN by SMS, and
 confirms the payment with it.
     """,
-    'author': 'Hajat',
+    'author': 'Mohamed Elkmeshi',
+    'support': 'elkmeshi2002@gmail.com',
     'depends': ['payment'],
     'data': [
         'views/payment_adfali_templates.xml',
@@ -21,9 +20,11 @@ confirms the payment with it.
         'data/payment_method_data.xml',
         'data/payment_provider_data.xml',
     ],
+    'post_init_hook': 'post_init_hook',
+    'uninstall_hook': 'uninstall_hook',
     'assets': {
         'web.assets_frontend': [
-            'payment_adfali/static/src/js/payment_form.js',
+            'payment_adfali/static/src/interactions/**/*',
         ],
     },
     'application': False,

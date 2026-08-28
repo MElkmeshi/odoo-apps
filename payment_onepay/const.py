@@ -1,5 +1,3 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 # The provider codes served by this module. They all speak the same API and
 # differ only in credentials and in the identity card prefix below.
 ONEPAY_CODES = ('onepay', 'musrefy_pay', 'yussor_online', 'sahara_pay')

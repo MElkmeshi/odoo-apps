@@ -1,8 +1,6 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 {
     'name': 'Payment Provider: OnePay',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Accounting/Payment Providers',
     'summary': "A payment provider for OnePay mobile wallets (Libya).",
     'description': """
@@ -15,7 +13,8 @@ The customer enters their identity card number, receives a one-time password
 by SMS, and confirms the payment with it. Pending transactions can be
 reconciled against OnePay's transaction report.
     """,
-    'author': 'Hajat',
+    'author': 'Mohamed Elkmeshi',
+    'support': 'elkmeshi2002@gmail.com',
     'depends': ['payment'],
     'data': [
         'views/payment_onepay_templates.xml',
@@ -25,9 +24,11 @@ reconciled against OnePay's transaction report.
         'data/payment_provider_data.xml',
         'data/ir_cron_data.xml',
     ],
+    'post_init_hook': 'post_init_hook',
+    'uninstall_hook': 'uninstall_hook',
     'assets': {
         'web.assets_frontend': [
-            'payment_onepay/static/src/js/payment_form.js',
+            'payment_onepay/static/src/interactions/**/*',
         ],
     },
     'application': False,

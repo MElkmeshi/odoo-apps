@@ -109,7 +109,7 @@ msgstr "الرقم السري"
 #. odoo-javascript
 #. odoo-python
 #: code:addons/payment_adfali/models/payment_transaction.py:0
-#: code:addons/payment_adfali/static/src/js/payment_form.js:0
+#: code:addons/payment_adfali/static/src/interactions/payment_form.js:0
 msgid "Please enter the PIN sent to your mobile number."
 msgstr "يرجى إدخال الرقم السري المرسل إلى هاتفك."
 
@@ -117,7 +117,7 @@ msgstr "يرجى إدخال الرقم السري المرسل إلى هاتفك
 #. odoo-javascript
 #. odoo-python
 #: code:addons/payment_adfali/models/payment_transaction.py:0
-#: code:addons/payment_adfali/static/src/js/payment_form.js:0
+#: code:addons/payment_adfali/static/src/interactions/payment_form.js:0
 msgid "Please enter your mobile number."
 msgstr "يرجى إدخال رقم هاتفك."
 

@@ -1,22 +1,34 @@
-/** @odoo-module **/
-
 import { _t } from '@web/core/l10n/translation';
 import { rpc } from '@web/core/network/rpc';
-import paymentForm from '@payment/js/payment_form';
+import { patch } from '@web/core/utils/patch';
 
-paymentForm.include({
+import { PaymentForm } from '@payment/interactions/payment_form';
+
+patch(PaymentForm.prototype, {
+
+    // #=== DOM MANIPULATION ===#
 
     /**
      * Force the direct flow so the PIN exchange runs on this page.
      *
-     * @override
+     * @override method from @payment/interactions/payment_form
+     * @private
+     * @param {number} providerId - The id of the selected payment option's provider.
+     * @param {string} providerCode - The code of the selected payment option's provider.
+     * @param {number} paymentOptionId - The id of the selected payment option.
+     * @param {string} paymentMethodCode - The code of the selected payment method, if any.
+     * @param {string} flow - The online payment flow of the selected payment option.
+     * @return {void}
      */
     async _prepareInlineForm(providerId, providerCode, paymentOptionId, paymentMethodCode, flow) {
         if (providerCode !== 'adfali') {
-            return this._super(...arguments);
+            await super._prepareInlineForm(...arguments);
+            return;
         }
         this._setPaymentFlow('direct');
     },
+
+    // #=== PAYMENT FLOW ===#
 
     /**
      * Run the two-phase PIN exchange.
@@ -24,11 +36,18 @@ paymentForm.include({
      * The transaction already exists at this point; phase one asks the gateway
      * to send the PIN, phase two spends it.
      *
-     * @override
+     * @override method from @payment/interactions/payment_form
+     * @private
+     * @param {string} providerCode - The code of the selected payment option's provider.
+     * @param {number} paymentOptionId - The id of the selected payment option.
+     * @param {string} paymentMethodCode - The code of the selected payment method, if any.
+     * @param {object} processingValues - The processing values of the transaction.
+     * @return {void}
      */
     async _processDirectFlow(providerCode, paymentOptionId, paymentMethodCode, processingValues) {
         if (providerCode !== 'adfali') {
-            return this._super(...arguments);
+            await super._processDirectFlow(...arguments);
+            return;
         }
 
         const form = this._adfaliGetForm();
@@ -83,7 +102,13 @@ paymentForm.include({
         this._hideInputs();
 
         const confirmButton = otpStep.querySelector('[name="o_adfali_confirm_button"]');
-        confirmButton.addEventListener('click', async () => {
+        if (confirmButton.dataset.adfaliBound) {
+            return; // The step is already wired; a second binding would double-submit the PIN.
+        }
+        confirmButton.dataset.adfaliBound = '1';
+        // `addListener` is the Interaction's own binder, so the handler is
+        // removed when the interaction is destroyed.
+        this.addListener(confirmButton, 'click', async () => {
             const otp = otpInput.value.trim();
             if (!otp) {
                 this._adfaliShowError(form, _t("Please enter the PIN sent to your mobile number."));
