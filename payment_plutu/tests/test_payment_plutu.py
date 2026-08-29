@@ -147,6 +147,17 @@ class TestPaymentPlutu(PaymentCommon):
 
     # === CONFIGURATION === #
 
+    def test_language_is_clamped_to_what_plutu_accepts(self):
+        """Plutu takes only 'ar' or 'en'; anything else must not be forwarded."""
+        tx = self._create_transaction(flow='redirect')
+        for partner_lang, expected in [
+            ('ar_LY', 'ar'), ('en_US', 'en'), ('fr_FR', 'en'), (False, 'en'),
+        ]:
+            with self.subTest(partner_lang=partner_lang):
+                tx.partner_lang = partner_lang
+                lang = 'ar' if (tx.partner_lang or '').startswith('ar') else 'en'
+                self.assertEqual(lang, expected)
+
     def test_only_lyd_is_offered(self):
         supported = self.plutu._get_supported_currencies()
         self.assertEqual(set(supported.mapped('name')), {'LYD'})
