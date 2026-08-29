@@ -51,7 +51,7 @@ class TestPaymentPlutu(PaymentCommon):
                 'currency': 'LYD', 'invoice_no': self.reference, 'transaction_id': 'TX-1',
             },
         }[gateway]
-        values.update(overrides)
+        values.update({k: v for k, v in overrides.items() if v is not None})
 
         signed_keys = const.SIGNED_PARAMETERS[(gateway, channel)]
         values['hashed'] = self._sign([(k, v) for k, v in values.items() if k in signed_keys])

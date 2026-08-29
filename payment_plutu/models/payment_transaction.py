@@ -31,7 +31,15 @@ class PaymentTransaction(models.Model):
         gateway = self.payment_method_id.code
         base_url = self.provider_id.get_base_url()
 
-        # Plutu accepts at most two decimal places and rejects anything longer.
+        # Plutu accepts at most two decimal places. LYD carries three in Odoo, so
+        # an amount like 10.555 is not merely a formatting problem: Plutu cannot
+        # charge it. Refusing beats quietly rounding the customer's total.
+        if round(self.amount, 2) != round(self.amount, 6):
+            raise ValidationError("Plutu: " + _(
+                "Plutu accepts at most two decimal places, so %(amount)s cannot be charged"
+                " exactly.", amount=self.amount,
+            ))
+
         payload = {
             'amount': f'{self.amount:.2f}',
             'invoice_no': self.reference,
