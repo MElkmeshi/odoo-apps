@@ -1,0 +1,119 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#0E7490;">Moamalat Payment Provider</h2>
+        <h3 class="oe_slogan" style="color:#64748b;">Take card payments in Libya through the Moamalat Lightbox &mdash; without leaving the checkout</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                The customer picks Moamalat, the hosted card form opens over the checkout page,
+                and they pay. Card details go straight to Moamalat and never touch your Odoo
+                server. It is an ordinary Odoo payment provider: it works anywhere
+                <code>payment</code> works &mdash; eCommerce checkout, customer portal invoices,
+                subscriptions and payment links.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">How a payment goes through</h2>
+        <div class="oe_span12">
+            <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#0E7490;"><b>1</b></td>
+                    <td style="padding:10px 24px;">Customer picks <b>Moamalat</b> at checkout.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#0E7490;"><b>2</b></td>
+                    <td style="padding:10px 24px;">Odoo signs the request with your Secure Key and opens the Lightbox.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#0E7490;"><b>3</b></td>
+                    <td style="padding:10px 24px;">The customer enters their card in Moamalat's own form. The transaction becomes <b>Pending</b>.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 24px; text-align:right; color:#0E7490;"><b>4</b></td>
+                    <td style="padding:10px 24px;">Moamalat posts a <b>signed notification</b> to your webhook. Odoo verifies it and sets the transaction <b>Done</b>, and the order confirms.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Only a signed notification can settle an order</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                The Lightbox reports its result through the customer's browser. That report is
+                treated as a hint and nothing more: it moves the customer along to the status
+                page, but it cannot mark a payment received. The state of a transaction changes
+                only when Moamalat posts a notification whose HMAC-SHA256 signature verifies
+                against your Notification Key.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                This matters because the browser is not a trusted messenger. If a claim of
+                &ldquo;paid&rdquo; coming from it were believed, anyone who could guess an order
+                reference could confirm an order without paying for it.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you need</h2>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="font-size:18px;">From Moamalat</h4>
+            <p class="text-center" style="font-size:15px;">
+                A Merchant ID and Terminal ID, a <b>Secure Key</b> for signing payment requests,
+                and a <b>Notification Key</b> for verifying the webhook. Both keys are
+                hexadecimal; Odoo refuses to save one that is not.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="font-size:18px;">In your Odoo</h4>
+            <p class="text-center" style="font-size:15px;">
+                Register <code>/payment/moamalat/webhook</code> with Moamalat as the notification
+                URL. Without it, payments stay Pending rather than confirming &mdash; which is
+                the safe direction to fail, but it does mean the webhook is not optional.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Details worth knowing</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                <b>Currencies.</b> Offered only for LYD, USD and EUR, so it never appears at
+                checkout in a currency Moamalat would reject.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                <b>Refunds.</b> Partial and full refunds are sent to Moamalat from the
+                transaction, as with any Odoo provider.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                <b>Test mode.</b> Set the provider to Test to use Moamalat's staging host. The
+                Lightbox is loaded from the host that matches the provider's state, so there is
+                nothing else to switch over when you go live.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                <b>No card data.</b> Tokenization and express checkout are off: the card is
+                entered in Moamalat's form, so your Odoo never sees or stores it.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:14px; color:#64748b;">
+                Moamalat is a trademark of its owner. This module is an independent integration
+                and is not affiliated with or endorsed by Moamalat.
+            </p>
+        </div>
+    </div>
+</section>
