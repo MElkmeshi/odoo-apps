@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="redirect_form">
+        <!--
+            Plutu's redirect URL carries the payment token in its query string,
+            and a GET form discards the query string of its action. The params
+            are re-emitted as hidden inputs so they survive the submit.
+        -->
+        <form t-att-action="api_url" method="get">
+            <t t-foreach="url_params or []" t-as="param" t-key="param_index">
+                <input type="hidden" t-att-name="param[0]" t-att-value="param[1]"/>
+            </t>
+        </form>
+    </template>
+
+</odoo>

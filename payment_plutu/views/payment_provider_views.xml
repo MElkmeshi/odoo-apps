@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Plutu Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group invisible="code != 'plutu'" name="plutu_credentials">
+                    <field name="plutu_api_key"
+                           required="code == 'plutu' and state != 'disabled'"
+                           password="True"/>
+                    <field name="plutu_access_token"
+                           required="code == 'plutu' and state != 'disabled'"
+                           password="True"/>
+                    <field name="plutu_secret_key"
+                           required="code == 'plutu' and state != 'disabled'"
+                           password="True"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
