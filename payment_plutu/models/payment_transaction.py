@@ -44,7 +44,10 @@ class PaymentTransaction(models.Model):
             'amount': f'{self.amount:.2f}',
             'invoice_no': self.reference,
             'return_url': f'{base_url}/payment/plutu/return',
-            'lang': (self.partner_lang or 'en')[:2],
+            # Plutu accepts only 'ar' or 'en'. Passing through the customer's
+            # language unclamped sends 'fr' or 'tr' for a partner whose language
+            # is not one of the two, which Plutu has no reason to accept.
+            'lang': 'ar' if (self.partner_lang or '').startswith('ar') else 'en',
         }
 
         if gateway in const.GATEWAYS_REQUIRING_MOBILE:
