@@ -1,0 +1,144 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12 text-center">
+            <img src="banner.png" class="img img-responsive" style="max-width:100%;"
+                 alt="NUMO PAY"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#0F766E;">POS NUMO QR</h2>
+        <h3 class="oe_slogan" style="color:#5f7d7a;">Take Libyan wallet payments at the till &mdash; no terminal, no hardware, no monthly fee</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                Pick <b>NUMO QR</b> on the payment screen and the till shows a QR code carrying
+                the exact amount. The customer scans it with their own Libyan banking app and
+                pays. The cashier confirms, and the order closes. Your existing bank account is
+                the only thing you need.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">At the till</h2>
+        <div class="oe_span12 text-center">
+            <img src="pos_payment_screen.png"
+                 class="img img-responsive shadow mb-3"
+                 style="max-width:520px;"
+                 alt="The NUMO QR payment dialog on the Odoo POS payment screen"/>
+            <p style="font-size:15px;">
+                The amount, your shop name, and the order reference travel inside the code, so
+                the customer's app fills the amount in for them and you have something to
+                reconcile against later.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Built against the real standard, not just the PDF</h2>
+        <div class="oe_span12 text-center">
+            <p class="mb-3" style="font-size:15px;">
+                NUMO is the Central Bank of Libya's national QR standard &mdash; an EMVCo-style
+                Tag-Length-Value format. Codes from this module were checked field by field
+                against an independent Libyan NUMO implementation:
+            </p>
+            <img src="numo_validation.png"
+                 class="img img-responsive shadow mb-3"
+                 style="max-width:560px;"
+                 alt="An independent NUMO validator reporting the generated code as valid, with no problems"/>
+            <p style="font-size:15px;">
+                <b>&ldquo;A valid payment code &mdash; no problems.&rdquo;</b>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you get</h2>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">The amount is already in the code</h3>
+            <p>
+                Every order produces a fresh dynamic QR carrying its own total, so the customer
+                never types an amount and never types it wrong. The order reference and the
+                register name ride along in the code's additional-data field.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Configuration that fails loudly</h3>
+            <p>
+                A malformed IBAN or bank code still produces a perfectly scannable QR &mdash; it
+                just points at the wrong account, and nobody finds out until a customer has paid
+                someone else. The IBAN, the 3-digit bank code and the category code are checked
+                when you save the payment method, not at the till.
+            </p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">No terminal to buy or rent</h3>
+            <p>
+                Merchant-presented QR needs no card reader, no SIM, no rental contract. Any
+                screen the customer can see is the payment terminal, so a second register costs
+                nothing to add.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">One method per receiving account</h3>
+            <p>
+                The NUMO details sit on the POS payment method, the same place Odoo keeps every
+                other terminal's configuration. Shops that bank in different places can each
+                point their own register at their own account.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Setting it up</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                Go to <b>Point of Sale &rsaquo; Configuration &rsaquo; Payment Methods</b> and
+                create a method. Set <b>Integration</b> to <b>Terminal</b>, choose
+                <b>NUMO QR</b>, then fill in the account holder name, IBAN, 3-digit bank code,
+                merchant name and city. Add the method to your register and you are taking
+                payments. There is nothing to install on the customer's side.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Before you install</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                <b>The cashier confirms the payment.</b> Merchant-presented NUMO ends in the
+                customer's own banking app, and this module makes no call to any gateway, so
+                the till has no independent proof the money moved. Confirming is a judgement the
+                cashier makes, exactly as it is with a bank transfer today. If your bank offers
+                a merchant API for confirmation, that is a different and larger integration.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                You need a Libyan bank account that supports NUMO, and its IBAN and 3-digit
+                institution code. The QR is built and drawn inside the register itself, so a
+                till that has dropped its connection can still take a NUMO payment.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                NUMO carries amounts in <b>Libyan Dinar</b>. Set your company currency to LYD so
+                the amount is written with the three decimals the standard expects.
+            </p>
+        </div>
+    </div>
+</section>
