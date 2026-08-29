@@ -5,6 +5,7 @@
         <field name="name">Plutu</field>
         <field name="code">plutu</field>
         <field name="redirect_form_view_id" ref="redirect_form"/>
+        <field name="inline_form_view_id" ref="inline_form"/>
         <field name="image_128" type="base64" file="payment_plutu/static/description/icon.png"/>
         <field name="allow_tokenization">False</field>
         <field name="allow_express_checkout">False</field>
@@ -20,6 +21,8 @@
                          ref('payment_plutu.payment_method_localbankcards'),
                          ref('payment_plutu.payment_method_tlync'),
                          ref('payment_plutu.payment_method_mpgs'),
+                         ref('payment_plutu.payment_method_edfali'),
+                         ref('payment_plutu.payment_method_sadad'),
                      ])]"
         />
     </record>

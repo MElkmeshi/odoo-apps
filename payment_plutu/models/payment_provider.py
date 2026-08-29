@@ -102,20 +102,42 @@ class PaymentProvider(models.Model):
             'Authorization': f'Bearer {self.sudo().plutu_access_token}',
         }
         try:
-            response = requests.post(url, json=payload, headers=headers, timeout=60)
+            # Form-encoded, not JSON: Plutu's own SDK posts `form_params` and
+            # their docs use `curl --form`. Some endpoints tolerate JSON, but
+            # the one-time-code ones reject it.
+            response = requests.post(url, data=payload, headers=headers, timeout=60)
             response.raise_for_status()
         except requests.exceptions.HTTPError:
-            # Logged in full, but not shown: the body is Plutu's and may name
-            # internals the customer has no business reading.
-            _logger.exception(
-                "Invalid API request at %s with data:\n%s\nResponse: %s",
+            _logger.warning(
+                "Plutu refused the request at %s with data:\n%s\nResponse: %s",
                 url, pprint.pformat(payload), response.text,
             )
-            raise ValidationError("Plutu: " + _("The payment could not be started."))
+            raise ValidationError("Plutu: " + self._plutu_error_message(response))
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
             _logger.exception("Unable to reach the Plutu API at %s", url)
             raise ValidationError("Plutu: " + _("Could not establish the connection to the API."))
         return response.json()
+
+    @staticmethod
+    def _plutu_error_message(response):
+        """Return something the customer can act on, from Plutu's error body.
+
+        Plutu answers with a short `message` such as "Not subscribed to the
+        service", which is far more use at the checkout than a generic failure.
+        Anything longer or unparseable is dropped rather than shown, since the
+        body is Plutu's and may name internals.
+
+        :param requests.Response response: The refused response.
+        :return: The message to show.
+        :rtype: str
+        """
+        try:
+            message = (response.json() or {}).get('message')
+        except ValueError:
+            message = None
+        if isinstance(message, str) and 0 < len(message) <= 200:
+            return message
+        return _("The payment could not be started.")
 
     def _plutu_verify_signature(self, gateway, channel, parameters):
         """Return whether a Plutu callback carries a valid signature.

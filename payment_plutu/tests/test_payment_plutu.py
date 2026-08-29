@@ -2,7 +2,9 @@
 
 import hashlib
 import hmac
+import itertools
 import pathlib
+from datetime import date
 from urllib.parse import urlencode
 
 from odoo.exceptions import ValidationError
@@ -144,6 +146,91 @@ class TestPaymentPlutu(PaymentCommon):
     def test_unknown_reference_is_refused(self):
         with self.assertRaises(ValidationError):
             self.env['payment.transaction']._get_tx_from_notification_data('plutu', {'invoice_no': 'NOPE'})
+
+    # === ONE-TIME-CODE GATEWAYS === #
+
+    _otp_seq = itertools.count()
+
+    def _otp_tx(self, gateway):
+        """Create a transaction for an OTP gateway with a unique reference."""
+        method = self.env['payment.method'].search([('code', '=', gateway)], limit=1)
+        self.reference = f'{gateway}-{next(self._otp_seq)}-{self.env.cr.dbname[:4]}'
+        return self._create_transaction(
+            flow='direct', payment_method_id=method.id, amount=10.0,
+        )
+
+    def test_adfali_rejects_a_malformed_mobile_number(self):
+        """Caught here, before it costs an SMS."""
+        tx = self._otp_tx('edfali')
+        for bad in ('', '0912345', '0812345678', '09123456789', 'nonsense'):
+            with self.subTest(mobile=bad), self.assertRaises(ValidationError):
+                tx._plutu_otp_send(bad)
+
+    def test_sadad_only_accepts_091_and_093(self):
+        """Sadad's range is narrower than Adfali's; the SDK enforces that."""
+        tx = self._otp_tx('sadadapi')
+        with self.assertRaises(ValidationError):
+            tx._plutu_otp_send('0942345678', birth_year='1990')  # valid for Adfali, not Sadad
+
+    def test_sadad_requires_a_plausible_birth_year(self):
+        tx = self._otp_tx('sadadapi')
+        for bad in (None, '', 'abcd', '1800', str(date.today().year)):
+            with self.subTest(birth_year=bad), self.assertRaises(ValidationError):
+                tx._plutu_otp_send('0912345678', birth_year=bad)
+
+    def test_confirm_refuses_a_code_of_the_wrong_length(self):
+        """Adfali codes are 4 digits and Sadad's are 6; they are not the same."""
+        for gateway, good, bad in (('edfali', '1234', '123456'),
+                                   ('sadadapi', '123456', '1234')):
+            with self.subTest(gateway=gateway):
+                tx = self._otp_tx(gateway)
+                tx.plutu_process_id = '123456789'
+                with self.assertRaises(ValidationError):
+                    tx._plutu_otp_confirm(bad)
+                self.assertEqual(len(good), const.OTP_GATEWAY_RULES[gateway]['code_length'])
+
+    def test_confirm_refuses_without_a_process_id(self):
+        """`confirm` spends what `verify` issued; there is nothing to spend yet."""
+        tx = self._otp_tx('edfali')
+        with self.assertRaises(ValidationError):
+            tx._plutu_otp_confirm('1234')
+
+    def test_otp_gateways_do_not_use_the_redirect_flow(self):
+        """They never leave the page, so there is no redirect form to render."""
+        tx = self._otp_tx('edfali')
+        self.assertEqual(tx._get_specific_rendering_values({}), {})
+
+    def test_otp_processing_values_describe_the_step(self):
+        tx = self._otp_tx('sadadapi')
+        vals = tx._get_specific_processing_values({})
+        self.assertEqual(vals['plutu_gateway'], 'sadadapi')
+        self.assertEqual(vals['plutu_code_length'], 6)
+        self.assertTrue(vals['plutu_requires_birth_year'])
+        self.assertTrue(vals['plutu_access_token'])
+
+    def test_otp_access_token_is_bound_to_the_reference(self):
+        """The token is what stops a stranger making Plutu text a customer."""
+        tx = self._otp_tx('edfali')
+        token = tx._get_specific_processing_values({})['plutu_access_token']
+        self.assertTrue(token)
+        self.assertEqual(token, tx._plutu_otp_token())
+
+        other = self._otp_tx('edfali')
+        self.assertNotEqual(token, other._plutu_otp_token())
+
+    # === REFERENCE SANITISING === #
+
+    def test_reference_is_made_acceptable_to_plutu(self):
+        """Plutu rejects invoice numbers outside [A-Za-z0-9.-_].
+
+        Odoo readily produces references like "INV/2026/0001", which Plutu
+        would refuse outright.
+        """
+        tx = self._otp_tx('edfali')
+        tx.reference = 'INV/2026/0001'
+        self.assertEqual(tx._plutu_invoice_no(), 'INV-2026-0001')
+        tx.reference = 'S00042-1'
+        self.assertEqual(tx._plutu_invoice_no(), 'S00042-1')
 
     # === CONFIGURATION === #
 

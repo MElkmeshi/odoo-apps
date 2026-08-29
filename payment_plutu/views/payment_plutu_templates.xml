@@ -14,4 +14,54 @@
         </form>
     </template>
 
+
+    <!--
+        Inline form for the one-time-code gateways. Rendered for the provider as
+        a whole, so it stays hidden until the customer picks Adfali or Sadad;
+        the JS reveals it and decides whether the birth year is asked for.
+    -->
+    <template id="inline_form">
+        <div name="o_plutu_otp_form" class="o_plutu_otp_form d-none">
+
+            <div name="o_plutu_mobile_step">
+                <label for="o_plutu_mobile" class="form-label">Mobile Number</label>
+                <input type="tel"
+                       name="o_plutu_mobile"
+                       class="form-control"
+                       autocomplete="tel"
+                       inputmode="tel"/>
+                <small name="o_plutu_mobile_hint" class="form-text text-muted"/>
+
+                <div name="o_plutu_birth_year_group" class="d-none mt-2">
+                    <label for="o_plutu_birth_year" class="form-label">Birth Year</label>
+                    <input type="text"
+                           name="o_plutu_birth_year"
+                           class="form-control"
+                           inputmode="numeric"
+                           maxlength="4"
+                           placeholder="1990"/>
+                </div>
+            </div>
+
+            <div name="o_plutu_code_step" class="d-none mt-2">
+                <label for="o_plutu_code" class="form-label">Confirmation Code</label>
+                <input type="text"
+                       name="o_plutu_code"
+                       class="form-control"
+                       autocomplete="one-time-code"
+                       inputmode="numeric"/>
+                <small class="form-text text-muted">
+                    Enter the code sent to your mobile number.
+                </small>
+                <button type="button"
+                        name="o_plutu_confirm_button"
+                        class="btn btn-primary mt-2">
+                    Confirm Payment
+                </button>
+            </div>
+
+            <div name="o_plutu_error" class="alert alert-danger d-none mt-2" role="alert"/>
+        </div>
+    </template>
+
 </odoo>

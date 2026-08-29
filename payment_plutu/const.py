@@ -1,18 +1,43 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-# The gateways this module implements. Both are redirect flows: Plutu returns a
-# URL, the customer pays there, and Plutu reports the result back.
-#
-# Plutu's other two gateways, Sadad (`sadadapi`) and Adfali (`edfali`), are
-# deliberately absent. They are not redirect flows: each needs a `verify` call
-# that texts the customer a one-time code, then a `confirm` call carrying that
-# code back. Listing them here without building that exchange would strand the
-# customer after the first step.
-DEFAULT_PAYMENT_METHODS_CODES = [
-    'localbankcards',
-    'tlync',
-    'mpgs',
-]
+# The gateways that hand the customer to Plutu and report back with a signed
+# callback.
+REDIRECT_GATEWAYS = ['localbankcards', 'tlync', 'mpgs']
+
+# The gateways that run entirely over the API: `verify` texts the customer a
+# one-time code, `confirm` spends it. There is no redirect and no callback, so
+# nothing is signed and the result is whatever `confirm` returns.
+OTP_GATEWAYS = ['edfali', 'sadadapi']
+
+DEFAULT_PAYMENT_METHODS_CODES = REDIRECT_GATEWAYS + OTP_GATEWAYS
+
+# Per-gateway rules for the OTP flow, taken from Plutu's PHP SDK
+# (`PlutuValidationTrait`). They genuinely differ: Adfali accepts any 09[1-6]
+# number and a 4-digit code, Sadad only 091/093 and a 6-digit code, and Sadad
+# alone asks for a birth year. Validating here means a mistyped number is
+# caught before it costs an SMS.
+OTP_GATEWAY_RULES = {
+    'edfali': {
+        'mobile_pattern': r'^09[1-6][0-9]{7}$',
+        'mobile_hint': "09XXXXXXXX",
+        'code_length': 4,
+        'requires_birth_year': False,
+    },
+    'sadadapi': {
+        'mobile_pattern': r'^09[13][0-9]{7}$',
+        'mobile_hint': "091XXXXXXX or 093XXXXXXX",
+        'code_length': 6,
+        'requires_birth_year': True,
+    },
+}
+
+# Sadad's accepted birth years, per the SDK: 1940 through this year minus 12.
+BIRTH_YEAR_MIN = 1940
+BIRTH_YEAR_MAX_OFFSET = 12
+
+# Plutu rejects an invoice number containing anything outside this set, so a
+# reference like "INV/2026/0001" has to be rewritten before it is sent.
+INVOICE_NO_PATTERN = r'^[A-Za-z0-9.\-_]+$'
 
 # Plutu settles in Libyan Dinar.
 SUPPORTED_CURRENCIES = {
