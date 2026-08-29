@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        The Lightbox script is injected by the payment form at the moment
+        Moamalat is selected, from the URL that matches the provider's state.
+        Nothing is added to `payment.form` here on purpose: a script tag there
+        loads on every checkout, whichever provider the customer picks.
+    -->
+    <template id="inline_form">
+        <t t-set="inline_form_values"
+           t-value="provider_sudo._moamalat_get_inline_form_values(
+                        amount,
+                        currency,
+                        partner_id,
+                    )"
+        />
+        <div name="o_moamalat_element_container"
+             class="o_moamalat_form"
+             t-att-data-moamalat-inline-form-values="inline_form_values"
+        >
+            <div id="o_moamalat_loading" class="text-center py-3" style="display: none;">
+                <i class="fa fa-spinner fa-spin fa-2x"/>
+                <p class="mt-2 mb-0">Preparing secure payment...</p>
+            </div>
+            <div id="o_moamalat_error" class="alert alert-danger" style="display: none;">
+                <i class="fa fa-exclamation-triangle"/>
+                <span id="o_moamalat_error_message">An error occurred.</span>
+            </div>
+        </div>
+    </template>
+
+</odoo>
