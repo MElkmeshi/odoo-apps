@@ -5,8 +5,11 @@ import pprint
 
 from werkzeug.exceptions import Forbidden
 
-from odoo import http
+from odoo import _, http
+from odoo.exceptions import ValidationError
 from odoo.http import request
+
+from odoo.addons.payment import utils as payment_utils
 
 
 _logger = logging.getLogger(__name__)
@@ -15,6 +18,80 @@ _logger = logging.getLogger(__name__)
 class PlutuController(http.Controller):
     _return_url = '/payment/plutu/return'
     _webhook_url = '/payment/plutu/webhook'
+    _otp_send_url = '/payment/plutu/otp/send'
+    _otp_confirm_url = '/payment/plutu/otp/confirm'
+
+    @staticmethod
+    def _get_otp_transaction(reference, access_token):
+        """Resolve the transaction behind a one-time-code request.
+
+        The token is checked before anything else. These routes are public and
+        `_plutu_otp_send` makes Plutu send a real SMS, so without it a stranger
+        who guessed a reference could have a customer's phone buzzed at will --
+        and could burn the merchant's SMS allowance doing it.
+
+        :param str reference: The transaction reference.
+        :param str access_token: The token issued with the processing values.
+        :return: The transaction, as sudo.
+        :rtype: payment.transaction
+        :raise Forbidden: If the token does not match the reference.
+        """
+        if not payment_utils.check_access_token(access_token, reference):
+            _logger.warning("Plutu code request for %s with a bad token.", reference)
+            raise Forbidden()
+
+        tx_sudo = request.env['payment.transaction'].sudo().search([
+            ('reference', '=', reference),
+            ('provider_code', '=', 'plutu'),
+        ], limit=1)
+        if not tx_sudo:
+            raise Forbidden()
+        return tx_sudo
+
+    @http.route(_otp_send_url, type='jsonrpc', auth='public')
+    def plutu_otp_send(self, reference, access_token, mobile_number, birth_year=None, **kwargs):
+        """Ask Plutu to text the customer a one-time code.
+
+        Errors come back in the payload rather than as exceptions so the inline
+        form can show them and let the customer correct a typo without losing
+        the page.
+
+        :param str reference: The transaction reference.
+        :param str access_token: The token issued with the processing values.
+        :param str mobile_number: The mobile number the customer typed.
+        :param str birth_year: The birth year, for Sadad.
+        :return: The code length, or an error message.
+        :rtype: dict
+        """
+        tx_sudo = self._get_otp_transaction(reference, access_token)
+        try:
+            code_length = tx_sudo._plutu_otp_send(mobile_number, birth_year=birth_year)
+        except ValidationError as e:
+            return {'error': str(e)}
+        except Exception:
+            _logger.exception("Plutu code request failed for %s", reference)
+            return {'error': _("The code could not be sent. Please try again.")}
+        return {'code_length': code_length}
+
+    @http.route(_otp_confirm_url, type='jsonrpc', auth='public')
+    def plutu_otp_confirm(self, reference, access_token, code, **kwargs):
+        """Spend the one-time code and settle the payment.
+
+        :param str reference: The transaction reference.
+        :param str access_token: The token issued with the processing values.
+        :param str code: The code the customer typed.
+        :return: Where to send the customer, or an error message.
+        :rtype: dict
+        """
+        tx_sudo = self._get_otp_transaction(reference, access_token)
+        try:
+            tx_sudo._plutu_otp_confirm(code)
+        except ValidationError as e:
+            return {'error': str(e)}
+        except Exception:
+            _logger.exception("Plutu confirmation failed for %s", reference)
+            return {'error': _("The payment could not be confirmed. Please try again.")}
+        return {'redirect_url': '/payment/status'}
 
     @http.route(_return_url, type='http', methods=['GET'], auth='public')
     def plutu_return_from_payment(self, **data):

@@ -6,9 +6,8 @@
         straight into the API path and into the signature lookup, so renaming
         one breaks both.
 
-        `static/img` also carries sadad.png and adfali.png. Those two gateways
-        are not registered here because this module does not implement their
-        one-time-code exchange; the artwork is in place for when it does.
+        Adfali's gateway id is `edfali` and Sadad's is `sadadapi`, not the
+        names they trade under. Using the trading name here would 404.
     -->
     <record id="payment_method_localbankcards" model="payment.method">
         <field name="name">Local Bank Cards</field>
@@ -35,6 +34,27 @@
         <field name="code">mpgs</field>
         <field name="sequence">3</field>
         <field name="image" type="base64" file="payment_plutu/static/img/mpgs.png"/>
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="active">True</field>
+    </record>
+
+
+    <record id="payment_method_edfali" model="payment.method">
+        <field name="name">Adfali</field>
+        <field name="code">edfali</field>
+        <field name="sequence">4</field>
+        <field name="image" type="base64" file="payment_plutu/static/img/adfali.png"/>
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="payment_method_sadad" model="payment.method">
+        <field name="name">Sadad</field>
+        <field name="code">sadadapi</field>
+        <field name="sequence">5</field>
+        <field name="image" type="base64" file="payment_plutu/static/img/sadad.png"/>
         <field name="support_tokenization">False</field>
         <field name="support_express_checkout">False</field>
         <field name="active">True</field>

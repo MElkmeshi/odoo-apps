@@ -23,6 +23,11 @@ from Plutu's signed callback.
         'data/payment_method_data.xml',
         'data/payment_provider_data.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'payment_plutu/static/src/interactions/**/*',
+        ],
+    },
     'post_init_hook': 'post_init_hook',
     'uninstall_hook': 'uninstall_hook',
     'application': False,

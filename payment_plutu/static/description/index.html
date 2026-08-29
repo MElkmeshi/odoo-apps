@@ -1,12 +1,13 @@
 <section class="oe_container">
     <div class="oe_row oe_spaced">
         <h2 class="oe_slogan" style="color:#7C3AED;">Plutu Payment Provider</h2>
-        <h3 class="oe_slogan" style="color:#64748b;">Take payments in Libya through Plutu &mdash; local bank cards, T-Lync and international cards</h3>
+        <h3 class="oe_slogan" style="color:#64748b;">Take payments in Libya through Plutu &mdash; local bank cards, T-Lync, international cards, Adfali and Sadad</h3>
         <div class="oe_span12">
             <p class="oe_mt32 text-center" style="font-size:16px;">
-                The customer picks a Plutu payment method at checkout and is sent to Plutu to
-                pay. Plutu reports the result back with a signed callback, and the order
-                confirms. It is an ordinary Odoo payment provider: it works anywhere
+                For cards and T-Lync the customer is sent to Plutu to pay, and Plutu reports
+                the result back with a signed callback. Adfali and Sadad never leave the
+                checkout: Plutu texts the customer a code, they type it in, and the payment
+                settles. It is an ordinary Odoo payment provider: it works anywhere
                 <code>payment</code> works &mdash; eCommerce checkout, customer portal invoices,
                 subscriptions and payment links.
             </p>
@@ -16,7 +17,7 @@
 
 <section class="oe_container oe_dark">
     <div class="oe_row oe_spaced">
-        <h2 class="oe_slogan">Three gateways</h2>
+        <h2 class="oe_slogan">Five gateways</h2>
         <div class="oe_span12">
             <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
                 <tr>
@@ -30,6 +31,14 @@
                 <tr>
                     <td style="padding:12px 24px;"><b>Mastercard / Visa</b></td>
                     <td style="padding:12px 24px;">International cards through MPGS.</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px 24px;"><b>Adfali</b></td>
+                    <td style="padding:12px 24px;">Pays by one-time code, without leaving the checkout.</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px 24px;"><b>Sadad</b></td>
+                    <td style="padding:12px 24px;">Pays by one-time code. Asks for a birth year as well as a number.</td>
                 </tr>
             </table>
             <p class="oe_mt32 text-center" style="font-size:15px;">
@@ -100,10 +109,10 @@
                 or stores a card. Tokenization and express checkout are off for the same reason.
             </p>
             <p class="text-center" style="font-size:15px;">
-                <b>Sadad and Adfali are not included.</b> Those gateways send the customer a
-                one-time code and need a second exchange to confirm it, which this module does
-                not implement. Offering them without it would strand the customer half way
-                through paying.
+                <b>Adfali and Sadad ask for a mobile number.</b> Plutu texts a code to it &mdash;
+                four digits for Adfali, six for Sadad &mdash; which the customer types into the
+                checkout. Sadad also asks for a birth year, and only accepts numbers starting
+                091 or 093. Nothing is charged until the code is accepted.
             </p>
         </div>
     </div>
