@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_numo_qr.OrderReceiptNumoQr"
+       t-inherit="point_of_sale.OrderReceipt"
+       t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('before-footer')]" position="before">
+            <div t-if="numoQr" class="pos-receipt-center-align pt-3">
+                <div class="fw-bolder">NUMO PAYMENT</div>
+                <div t-out="formatCurrency(numoQr.amount)" style="font-size: 150%; font-weight: bold;"/>
+                <div class="pt-2">
+                    <img t-att-src="numoQr.src"
+                         style="width: 220px; height: 220px;"
+                         alt="NUMO payment QR code"/>
+                </div>
+                <div class="pt-2">Scan with your banking app to pay.</div>
+                <div t-if="numoQr.method.numo_merchant_name" t-out="numoQr.method.numo_merchant_name"/>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

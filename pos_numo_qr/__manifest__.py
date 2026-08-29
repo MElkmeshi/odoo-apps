@@ -1,6 +1,6 @@
 {
     'name': 'POS NUMO QR (Libya)',
-    'version': '19.0.1.2.0',
+    'version': '19.0.1.3.0',
     'category': 'Sales/Point of Sale',
     'summary': "Show a NUMO / LYPay payment QR code on the POS payment screen.",
     'description': """

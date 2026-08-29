@@ -58,11 +58,21 @@ class PosPaymentMethod(models.Model):
         help="Optional merchant number issued by the acquirer. Goes in tag 02. "
              "Leave empty unless your bank told you to fill it in.",
     )
-    numo_auto_print = fields.Boolean(
-        string="Print QR Automatically",
-        help="Print the QR on the receipt printer as soon as it is shown, so the "
-             "customer can scan it from a slip instead of the cashier's screen. "
-             "Leave off if the customer can see the screen.",
+    numo_qr_display = fields.Selection(
+        selection=[
+            ('receipt', "On the customer receipt"),
+            ('screen', "On screen at the till"),
+        ],
+        string="Show the QR",
+        default='receipt',
+        required=True,
+        help="On the customer receipt: the sale is closed straight away and the "
+             "customer scans the QR from their printed receipt afterwards. The "
+             "till books the money before it arrives, so the Outstanding Account "
+             "below stops being a formality: a transfer the customer never makes "
+             "simply never reconciles against the bank statement.\n"
+             "On screen at the till: the cashier shows the QR and confirms once "
+             "the customer has paid.",
     )
 
     # === COMPUTE METHODS === #
@@ -149,5 +159,5 @@ class PosPaymentMethod(models.Model):
         return super()._load_pos_data_fields(config) + [
             'numo_account_name', 'numo_iban', 'numo_bank_code',
             'numo_merchant_name', 'numo_city', 'numo_mcc', 'numo_merchant_account',
-            'numo_auto_print',
+            'numo_qr_display',
         ]

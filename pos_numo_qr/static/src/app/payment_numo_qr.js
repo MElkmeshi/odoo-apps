@@ -2,22 +2,20 @@ import { _t } from "@web/core/l10n/translation";
 import { PaymentInterface } from "@point_of_sale/app/utils/payment/payment_interface";
 import { makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
-import { formatDateTime } from "@web/core/l10n/dates";
 
-import { buildNumoPayload } from "@pos_numo_qr/app/numo_payload";
+import { buildPayloadForMethod } from "@pos_numo_qr/app/numo_payload";
 import { NumoQrDialog } from "@pos_numo_qr/app/numo_qr_dialog";
-import { NumoQrReceipt } from "@pos_numo_qr/app/numo_qr_receipt";
-
-const { DateTime } = luxon;
 
 export class PaymentNumoQr extends PaymentInterface {
     /**
-     * Show the QR and wait for the cashier.
+     * Accept the payment, showing the QR at the till first if configured to.
      *
      * There is no gateway call here and no confirmation channel: NUMO's
-     * merchant-presented flow ends at the customer's own banking app. The
-     * cashier confirming is the only signal the till gets, so the payment is
-     * only ever as trustworthy as that.
+     * merchant-presented flow ends at the customer's own banking app, so
+     * nothing the till does can tell it the money arrived. What guards the
+     * shop is the outstanding account the payment method points at: the takings
+     * sit there until a bank statement clears them, and a transfer that never
+     * happened simply never reconciles.
      *
      * @override
      * @param {string} uuid - The uuid of the payment line.
@@ -42,21 +40,28 @@ export class PaymentNumoQr extends PaymentInterface {
             return false;
         }
 
-        line.setPaymentStatus("waiting");
-
-        if (this.payment_method_id.numo_auto_print) {
-            // Not awaited: on a till with no receipt printer this falls back to
-            // the browser's print dialog, which blocks until dismissed. The QR
-            // has to be on screen by then, not behind it.
-            this._printQr(payload, line.getAmount(), order);
+        if (this.payment_method_id.numo_qr_display === "receipt") {
+            // The customer scans from the printed receipt after the sale, so
+            // there is nothing for the cashier to watch and nothing to confirm.
+            return true;
         }
 
+        line.setPaymentStatus("waiting");
         const confirmed = await makeAwaitable(this.env.services.dialog, NumoQrDialog, {
             payload,
             amount: this.env.utils.formatCurrency(line.getAmount()),
             merchantName: this.payment_method_id.numo_merchant_name,
             reference: this._orderReference(order),
         });
+
+        if (!confirmed) {
+            // Returning false alone leaves the line at "retry", and any line
+            // that is not done or reversed makes the order refuse every further
+            // electronic payment. A card terminal has a request worth retrying;
+            // this never sent one, so the line is just a trap. Odoo removes the
+            // line the same way for its own QR methods.
+            order.removePaymentline(line);
+        }
 
         return Boolean(confirmed);
     }
@@ -72,45 +77,11 @@ export class PaymentNumoQr extends PaymentInterface {
     }
 
     /**
-     * Print the QR slip, if a printer will take it.
-     *
-     * Deliberately swallows its errors. The QR is about to go up on screen
-     * either way, and a jammed or unplugged printer is not a reason to fail a
-     * payment the customer can still make by scanning it there.
-     *
-     * @private
-     * @param {string} payload
-     * @param {number} amount
-     * @param {object} order
-     * @returns {Promise<void>}
-     */
-    async _printQr(payload, amount, order) {
-        const method = this.payment_method_id;
-        try {
-            await this.env.services.printer.print(
-                NumoQrReceipt,
-                {
-                    payload,
-                    amount: this.env.utils.formatCurrency(amount),
-                    merchantName: method.numo_merchant_name,
-                    city: method.numo_city,
-                    reference: this._orderReference(order),
-                    date: formatDateTime(DateTime.now()),
-                },
-                // So the slip is still printable on a till with no receipt
-                // printer attached, via the browser's own print dialog.
-                { webPrintFallback: true }
-            );
-        } catch {
-            this.env.services.notification.add(
-                _t("The NUMO QR could not be printed. Ask the customer to scan the screen."),
-                { type: "warning" }
-            );
-        }
-    }
-
-    /**
      * Assemble the payload from the payment method's configuration.
+     *
+     * Called even in receipt mode, before anything is accepted, so a broken
+     * configuration is caught while the cashier can still pick another method
+     * rather than after the customer has walked out with a useless QR.
      *
      * @private
      * @param {number} amount
@@ -118,26 +89,11 @@ export class PaymentNumoQr extends PaymentInterface {
      * @returns {string}
      */
     _buildPayload(amount, order) {
-        const method = this.payment_method_id;
-        if (!method.numo_iban || !method.numo_bank_code) {
-            throw new Error(
-                _t("Set the IBAN and bank code on this payment method before using it.")
-            );
-        }
-        return buildNumoPayload({
-            accountName: method.numo_account_name,
-            account: method.numo_iban,
-            bankCode: method.numo_bank_code,
-            merchantName: method.numo_merchant_name,
-            city: method.numo_city,
-            mcc: method.numo_mcc || "9999",
-            merchantAccount: method.numo_merchant_account,
+        return buildPayloadForMethod(this.payment_method_id, {
             amount,
             amountDecimals: this.pos.currency.decimal_places,
-            additionalData: {
-                billNumber: this._orderReference(order),
-                terminalLabel: this.pos.config.name,
-            },
+            reference: this._orderReference(order),
+            terminalLabel: this.pos.config.name,
         });
     }
 

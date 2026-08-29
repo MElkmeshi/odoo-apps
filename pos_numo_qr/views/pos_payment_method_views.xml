@@ -36,8 +36,9 @@
                 <field name="numo_merchant_account"
                        placeholder="Leave empty unless your bank issued one"
                        invisible="use_payment_terminal != 'numo_qr'"/>
-                <field name="numo_auto_print"
-                       invisible="use_payment_terminal != 'numo_qr'"/>
+                <field name="numo_qr_display"
+                       invisible="use_payment_terminal != 'numo_qr'"
+                       required="use_payment_terminal == 'numo_qr'"/>
             </xpath>
         </field>
     </record>

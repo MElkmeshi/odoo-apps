@@ -40,7 +40,7 @@ class TestPosNumoQr(TestPoSCommon):
     def test_config_fields_reach_the_browser(self):
         fields = self.env['pos.payment.method']._load_pos_data_fields(self.basic_config)
         for name in ('numo_iban', 'numo_bank_code', 'numo_merchant_name', 'numo_city',
-                     'numo_auto_print'):
+                     'numo_qr_display'):
             self.assertIn(name, fields, "%s must be loaded into the POS session" % name)
 
     def test_missing_required_field_is_refused(self):
@@ -68,9 +68,13 @@ class TestPosNumoQr(TestPoSCommon):
         })
         self.assertFalse(method.numo_iban)
 
-    def test_auto_print_defaults_to_off(self):
-        """Paper costs money, and most tills let the customer see the screen."""
-        self.assertFalse(self._create().numo_auto_print)
+    def test_qr_display_defaults_to_the_receipt(self):
+        self.assertEqual(self._create().numo_qr_display, 'receipt')
+
+    def test_qr_display_reaches_the_browser(self):
+        """The till decides between the dialog and the receipt client-side."""
+        fields = self.env['pos.payment.method']._load_pos_data_fields(self.basic_config)
+        self.assertIn('numo_qr_display', fields)
 
     def test_a_cash_journal_is_refused(self):
         """NUMO settles into the bank after the session closes, never the drawer.

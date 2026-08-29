@@ -166,3 +166,45 @@ export function buildNumoPayload({
 
     return body + crc16ccitt(body);
 }
+
+/**
+ * Build the payload straight from a `pos.payment.method` record.
+ *
+ * The QR is now assembled in two places — the till dialog and the customer
+ * receipt — and the two must encode byte-for-byte the same thing. Keeping the
+ * mapping from configuration to payload here is what guarantees that.
+ *
+ * @param {object} method - A `pos.payment.method` with the numo_* fields.
+ * @param {object} options
+ * @param {number} options.amount
+ * @param {number} [options.amountDecimals]
+ * @param {string} [options.reference] - Goes in the QR and on screen.
+ * @param {string} [options.terminalLabel]
+ * @returns {string}
+ * @throws {Error} If the method has no IBAN or bank code.
+ */
+export function buildPayloadForMethod(method, {
+    amount,
+    amountDecimals = 3,
+    reference,
+    terminalLabel,
+} = {}) {
+    if (!method?.numo_iban || !method?.numo_bank_code) {
+        throw new Error("Set the IBAN and bank code on this payment method before using it.");
+    }
+    return buildNumoPayload({
+        accountName: method.numo_account_name,
+        account: method.numo_iban,
+        bankCode: method.numo_bank_code,
+        merchantName: method.numo_merchant_name,
+        city: method.numo_city,
+        mcc: method.numo_mcc || "9999",
+        merchantAccount: method.numo_merchant_account,
+        amount,
+        amountDecimals,
+        additionalData: {
+            billNumber: reference,
+            terminalLabel,
+        },
+    });
+}
