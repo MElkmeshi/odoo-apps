@@ -6,12 +6,13 @@
     'description': """
 POS NUMO QR
 ===========
+
 Adds a payment method that displays a NUMO QR code at the till. The customer
 scans it with their Libyan banking app and pays; the cashier confirms.
 
 NUMO is the national QR payment standard of the Central Bank of Libya, an
 EMVCo-style Tag-Length-Value format used by LYPay.
-    """,
+""",
     'author': 'Mohamed Elkmeshi',
     'support': 'elkmeshi2002@gmail.com',
     'depends': ['point_of_sale'],
