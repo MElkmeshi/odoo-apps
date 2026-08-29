@@ -51,7 +51,7 @@ class TestPaymentPlutu(PaymentCommon):
                 'currency': 'LYD', 'invoice_no': self.reference, 'transaction_id': 'TX-1',
             },
         }[gateway]
-        values.update(overrides)
+        values.update({k: v for k, v in overrides.items() if v is not None})
 
         signed_keys = const.SIGNED_PARAMETERS[(gateway, channel)]
         values['hashed'] = self._sign([(k, v) for k, v in values.items() if k in signed_keys])
@@ -144,6 +144,36 @@ class TestPaymentPlutu(PaymentCommon):
     def test_unknown_reference_is_refused(self):
         with self.assertRaises(ValidationError):
             self.env['payment.transaction']._search_by_reference('plutu', {'invoice_no': 'NOPE'})
+
+    def test_full_processing_path_settles_the_transaction(self):
+        """Drive `_process`, not just `_apply_updates`.
+
+        `_process` also runs Odoo's amount check, which needs
+        `_extract_amount_data`. Asserting only on `_apply_updates` leaves that
+        hook untested and the real callback 500s.
+        """
+        tx = self._create_transaction(flow='redirect', amount=10.5)
+        data = self._callback(
+            'localbankcards', 'callback', amount='10.5', canceled=None,
+        )
+        data.pop('canceled', None)
+        self.env['payment.transaction']._process('plutu', data)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, 'done')
+
+    def test_amount_mismatch_is_refused(self):
+        """A signed callback claiming a different amount must not settle."""
+        tx = self._create_transaction(flow='redirect', amount=10.5)
+        data = self._callback('localbankcards', 'callback', amount='1.00')
+        data.pop('canceled', None)
+        self.env['payment.transaction']._process('plutu', data)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, 'error')
+
+    def test_amount_is_skipped_when_plutu_does_not_sign_it(self):
+        """T-Lync returns carry no amount; the check must be skipped, not fail."""
+        tx = self._create_transaction(flow='redirect', amount=10.5)
+        self.assertIsNone(tx._extract_amount_data({'invoice_no': tx.reference}))
 
     # === CONFIGURATION === #
 

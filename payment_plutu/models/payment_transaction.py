@@ -31,7 +31,15 @@ class PaymentTransaction(models.Model):
         gateway = self.payment_method_id.code
         base_url = self.provider_id.get_base_url()
 
-        # Plutu accepts at most two decimal places and rejects anything longer.
+        # Plutu accepts at most two decimal places. LYD carries three in Odoo, so
+        # an amount like 10.555 is not merely a formatting problem: Plutu cannot
+        # charge it. Refusing beats quietly rounding the customer's total.
+        if round(self.amount, 2) != round(self.amount, 6):
+            raise ValidationError("Plutu: " + _(
+                "Plutu accepts at most two decimal places, so %(amount)s cannot be charged"
+                " exactly.", amount=self.amount,
+            ))
+
         payload = {
             'amount': f'{self.amount:.2f}',
             'invoice_no': self.reference,
@@ -88,6 +96,34 @@ class PaymentTransaction(models.Model):
                 "Plutu: " + _("No transaction found matching reference %s.", reference)
             )
         return tx
+
+    def _extract_amount_data(self, payment_data):
+        """Override of `payment` to let Odoo check Plutu's amount against ours.
+
+        :param dict payment_data: The payment data sent by the provider.
+        :return: The amount data, or None to skip the check.
+        :rtype: dict|None
+        """
+        if self.provider_code != 'plutu':
+            return super()._extract_amount_data(payment_data)
+
+        if payment_data.get('amount') is None:
+            # T-Lync signs only `approved` and `invoice_no` on the return, so
+            # there is no amount here to check. Skipping is right: the signature
+            # already proves the message is Plutu's, and the callback -- which
+            # does carry the amount -- is checked.
+            return None
+
+        return {
+            'amount': float(payment_data['amount']),
+            # Only MPGS echoes a currency back. For the others there is nothing
+            # to compare against, so the transaction's own currency is used and
+            # the currency half of the check is a no-op. Hard-coding "LYD" here
+            # would be inventing a value the provider never sent.
+            'currency_code': payment_data.get('currency') or self.currency_id.name,
+            # Compare at the two decimals Plutu works to, not LYD's three.
+            'precision_digits': 2,
+        }
 
     def _apply_updates(self, payment_data):
         """Override of `payment` to update the transaction from Plutu data.
