@@ -2,6 +2,7 @@
 
 import hashlib
 import hmac
+import itertools
 import pathlib
 from datetime import date
 from urllib.parse import urlencode
@@ -9,7 +10,6 @@ from urllib.parse import urlencode
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.payment import utils as payment_utils
 from odoo.addons.payment.tests.common import PaymentCommon
 from odoo.addons.payment_plutu import const
 
@@ -148,16 +148,9 @@ class TestPaymentPlutu(PaymentCommon):
             self.env['payment.transaction']._search_by_reference('plutu', {'invoice_no': 'NOPE'})
 
     def test_full_processing_path_settles_the_transaction(self):
-        """Drive `_process`, not just `_apply_updates`.
-
-        `_process` also runs Odoo's amount check, which needs
-        `_extract_amount_data`. Asserting only on `_apply_updates` leaves that
-        hook untested and the real callback 500s.
-        """
+        """Drive `_process`, not just `_apply_updates`, so the amount hook runs."""
         tx = self._create_transaction(flow='redirect', amount=10.5)
-        data = self._callback(
-            'localbankcards', 'callback', amount='10.5', canceled=None,
-        )
+        data = self._callback('localbankcards', 'callback', amount='10.5')
         data.pop('canceled', None)
         self.env['payment.transaction']._process('plutu', data)
         tx.invalidate_recordset()
@@ -179,9 +172,12 @@ class TestPaymentPlutu(PaymentCommon):
 
     # === ONE-TIME-CODE GATEWAYS === #
 
+    _otp_seq = itertools.count()
+
     def _otp_tx(self, gateway):
+        """Create a transaction for an OTP gateway with a unique reference."""
         method = self.env['payment.method'].search([('code', '=', gateway)], limit=1)
-        self.reference = f'{gateway}-{self.env["ir.sequence"].next_by_code("base.sequence.type") or id(self)}'
+        self.reference = f'{gateway}-{next(self._otp_seq)}-{self.env.cr.dbname[:4]}'
         return self._create_transaction(
             flow='direct', payment_method_id=method.id, amount=10.0,
         )
@@ -239,12 +235,11 @@ class TestPaymentPlutu(PaymentCommon):
         """The token is what stops a stranger making Plutu text a customer."""
         tx = self._otp_tx('edfali')
         token = tx._get_specific_processing_values({})['plutu_access_token']
-        self.assertEqual(
-            token, payment_utils.generate_access_token(tx.reference, env=self.env)
-        )
-        self.assertNotEqual(
-            token, payment_utils.generate_access_token('SOME-OTHER-REF', env=self.env)
-        )
+        self.assertTrue(token)
+        self.assertEqual(token, tx._plutu_otp_token())
+
+        other = self._otp_tx('edfali')
+        self.assertNotEqual(token, other._plutu_otp_token())
 
     # === REFERENCE SANITISING === #
 

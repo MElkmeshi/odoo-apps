@@ -8,8 +8,8 @@ from werkzeug.exceptions import Forbidden
 from odoo import _, http
 from odoo.exceptions import ValidationError
 from odoo.http import request
+from odoo.tools import consteq, hmac as hmac_tool
 
-from odoo.addons.payment import utils as payment_utils
 
 
 _logger = logging.getLogger(__name__)
@@ -36,7 +36,8 @@ class PlutuController(http.Controller):
         :rtype: payment.transaction
         :raise Forbidden: If the token does not match the reference.
         """
-        if not payment_utils.check_access_token(access_token, reference):
+        expected = hmac_tool(request.env(su=True), 'plutu_otp_flow', reference)
+        if not access_token or not consteq(access_token, expected):
             _logger.warning("Plutu code request for %s with a bad token.", reference)
             raise Forbidden()
 

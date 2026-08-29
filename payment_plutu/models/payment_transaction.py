@@ -6,9 +6,9 @@ from datetime import date
 from urllib.parse import parse_qsl, urlsplit, urlunsplit
 
 from odoo import _, fields, models
+from odoo.tools import hmac as hmac_tool
 from odoo.exceptions import ValidationError
 
-from odoo.addons.payment import utils as payment_utils
 from odoo.addons.payment_plutu import const
 
 
@@ -26,6 +26,20 @@ class PaymentTransaction(models.Model):
     )
 
     # === BUSINESS METHODS: THE ONE-TIME-CODE FLOW === #
+
+    def _plutu_otp_token(self):
+        """Return the token that authorises the one-time-code routes.
+
+        Odoo's `payment_utils.generate_access_token` is not used because its
+        signature differs across series and, on 18, it reads `request.env`,
+        which does not exist outside an HTTP request. Signing with the same
+        underlying `hmac` tool keeps one implementation for both.
+
+        :return: The token, bound to this transaction's reference.
+        :rtype: str
+        """
+        self.ensure_one()
+        return hmac_tool(self.env(su=True), 'plutu_otp_flow', self.reference)
 
     def _plutu_invoice_no(self):
         """Return a reference Plutu will accept.
@@ -180,9 +194,7 @@ class PaymentTransaction(models.Model):
             'plutu_code_length': rules['code_length'],
             'plutu_mobile_hint': rules['mobile_hint'],
             'plutu_requires_birth_year': rules['requires_birth_year'],
-            'plutu_access_token': payment_utils.generate_access_token(
-                self.reference, env=self.env
-            ),
+            'plutu_access_token': self._plutu_otp_token(),
         }
 
     def _get_specific_rendering_values(self, processing_values):
@@ -284,8 +296,7 @@ class PaymentTransaction(models.Model):
             'amount': float(payment_data['amount']),
             # Only MPGS echoes a currency back. For the others there is nothing
             # to compare against, so the transaction's own currency is used and
-            # the currency half of the check is a no-op. Hard-coding "LYD" here
-            # would be inventing a value the provider never sent.
+            # the currency half of the check is a no-op.
             'currency_code': payment_data.get('currency') or self.currency_id.name,
             # Compare at the two decimals Plutu works to, not LYD's three.
             'precision_digits': 2,
