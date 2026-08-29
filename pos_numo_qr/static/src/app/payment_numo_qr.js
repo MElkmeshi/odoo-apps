@@ -2,9 +2,13 @@ import { _t } from "@web/core/l10n/translation";
 import { PaymentInterface } from "@point_of_sale/app/utils/payment/payment_interface";
 import { makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { formatDateTime } from "@web/core/l10n/dates";
 
 import { buildNumoPayload } from "@pos_numo_qr/app/numo_payload";
 import { NumoQrDialog } from "@pos_numo_qr/app/numo_qr_dialog";
+import { NumoQrReceipt } from "@pos_numo_qr/app/numo_qr_receipt";
+
+const { DateTime } = luxon;
 
 export class PaymentNumoQr extends PaymentInterface {
     /**
@@ -39,6 +43,14 @@ export class PaymentNumoQr extends PaymentInterface {
         }
 
         line.setPaymentStatus("waiting");
+
+        if (this.payment_method_id.numo_auto_print) {
+            // Not awaited: on a till with no receipt printer this falls back to
+            // the browser's print dialog, which blocks until dismissed. The QR
+            // has to be on screen by then, not behind it.
+            this._printQr(payload, line.getAmount(), order);
+        }
+
         const confirmed = await makeAwaitable(this.env.services.dialog, NumoQrDialog, {
             payload,
             amount: this.env.utils.formatCurrency(line.getAmount()),
@@ -57,6 +69,44 @@ export class PaymentNumoQr extends PaymentInterface {
      */
     async sendPaymentCancel() {
         return true;
+    }
+
+    /**
+     * Print the QR slip, if a printer will take it.
+     *
+     * Deliberately swallows its errors. The QR is about to go up on screen
+     * either way, and a jammed or unplugged printer is not a reason to fail a
+     * payment the customer can still make by scanning it there.
+     *
+     * @private
+     * @param {string} payload
+     * @param {number} amount
+     * @param {object} order
+     * @returns {Promise<void>}
+     */
+    async _printQr(payload, amount, order) {
+        const method = this.payment_method_id;
+        try {
+            await this.env.services.printer.print(
+                NumoQrReceipt,
+                {
+                    payload,
+                    amount: this.env.utils.formatCurrency(amount),
+                    merchantName: method.numo_merchant_name,
+                    city: method.numo_city,
+                    reference: this._orderReference(order),
+                    date: formatDateTime(DateTime.now()),
+                },
+                // So the slip is still printable on a till with no receipt
+                // printer attached, via the browser's own print dialog.
+                { webPrintFallback: true }
+            );
+        } catch {
+            this.env.services.notification.add(
+                _t("The NUMO QR could not be printed. Ask the customer to scan the screen."),
+                { type: "warning" }
+            );
+        }
     }
 
     /**

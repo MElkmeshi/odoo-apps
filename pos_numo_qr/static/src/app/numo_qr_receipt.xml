@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_numo_qr.NumoQrReceipt">
+        <div class="pos-receipt">
+            <div class="pos-receipt-center-align">
+                <div t-if="props.merchantName" class="pos-receipt-contact fw-bolder"
+                     t-esc="props.merchantName"/>
+                <div t-if="props.city" t-esc="props.city"/>
+            </div>
+
+            <div class="pos-receipt-center-align pt-2">NUMO PAYMENT</div>
+
+            <div class="pos-receipt-center-align" style="font-size: 150%; font-weight: bold;"
+                 t-esc="props.amount"/>
+
+            <div class="pos-receipt-center-align pt-2">
+                <img t-att-src="qrSrc"
+                     style="width: 220px; height: 220px;"
+                     alt="NUMO payment QR code"/>
+            </div>
+
+            <div class="pos-receipt-center-align pt-2">
+                Scan with your banking app to pay.
+            </div>
+
+            <div t-if="props.reference" class="pos-receipt-center-align pt-2">
+                Ref <t t-esc="props.reference"/>
+            </div>
+            <div t-if="props.date" class="pos-receipt-center-align" t-esc="props.date"/>
+        </div>
+    </t>
+
+</templates>

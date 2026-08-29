@@ -47,12 +47,18 @@ class PosPaymentMethod(models.Model):
         help="Optional merchant number issued by the acquirer. Goes in tag 02. "
              "Leave empty unless your bank told you to fill it in.",
     )
+    numo_auto_print = fields.Boolean(
+        string="Print QR Automatically",
+        help="Print the QR on the receipt printer as soon as it is shown, so the "
+             "customer can scan it from a slip instead of the cashier's screen. "
+             "Leave off if the customer can see the screen.",
+    )
 
     # === CONSTRAINT METHODS === #
 
     @api.constrains(
         'use_payment_terminal', 'numo_iban', 'numo_bank_code', 'numo_mcc',
-        'numo_account_name', 'numo_merchant_name', 'numo_city',
+        'numo_account_name', 'numo_merchant_name', 'numo_city', 'journal_id',
     )
     def _check_numo_fields(self):
         """Reject an unusable NUMO configuration at save time.
@@ -89,6 +95,14 @@ class PosPaymentMethod(models.Model):
                 raise ValidationError(
                     _("The merchant category code must be exactly 4 digits, e.g. 5411.")
                 )
+            if method.journal_id.type == 'cash':
+                raise ValidationError(_(
+                    "NUMO QR cannot use a cash journal. The customer transfers the "
+                    "money to your bank account, and it settles after the session is "
+                    "closed, so booking it as cash makes the drawer count wrong. Use a "
+                    "bank journal and point its Outstanding Account at the account you "
+                    "hold NUMO transfers in until the bank statement clears them."
+                ))
 
     # === BUSINESS METHODS === #
 
@@ -108,4 +122,5 @@ class PosPaymentMethod(models.Model):
         return super()._load_pos_data_fields(config) + [
             'numo_account_name', 'numo_iban', 'numo_bank_code',
             'numo_merchant_name', 'numo_city', 'numo_mcc', 'numo_merchant_account',
+            'numo_auto_print',
         ]
