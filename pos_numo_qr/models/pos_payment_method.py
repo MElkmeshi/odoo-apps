@@ -3,6 +3,8 @@ import re
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from .. import const
+
 
 # The institution code is 3 digits (e.g. 024 for Al Nuran Bank).
 BANK_CODE_RE = re.compile(r'^\d{3}$')
@@ -23,10 +25,19 @@ class PosPaymentMethod(models.Model):
         string="IBAN",
         help="The receiving account. Spaces are ignored. Goes in tag 29.",
     )
+    numo_bank = fields.Selection(
+        selection=const.BANK_SELECTION,
+        string="Bank",
+        help="The bank holding the receiving account. Pick 'Other' if your bank "
+             "is not listed and enter its code by hand.",
+    )
     numo_bank_code = fields.Char(
         string="Bank Code",
+        compute='_compute_numo_bank_code',
+        store=True,
+        readonly=False,
         help="The 3-digit institution code issued by the Central Bank of Libya, "
-             "e.g. 024 for Al Nuran Bank. Goes in tag 30.",
+             "e.g. 024 for Nuran Bank. Filled in from the bank you pick. Goes in tag 30.",
     )
     numo_merchant_name = fields.Char(
         string="Merchant Name",
@@ -54,11 +65,26 @@ class PosPaymentMethod(models.Model):
              "Leave off if the customer can see the screen.",
     )
 
+    # === COMPUTE METHODS === #
+
+    @api.depends('numo_bank')
+    def _compute_numo_bank_code(self):
+        """Mirror the picked bank into the code that actually goes in the QR.
+
+        The code stays the stored value rather than being derived on the fly:
+        it is what the encoder reads, what travels to the browser, and what an
+        existing install already has on disk. Picking a bank only fills it in.
+        """
+        for method in self:
+            if method.numo_bank and method.numo_bank != const.BANK_OTHER:
+                method.numo_bank_code = method.numo_bank
+
     # === CONSTRAINT METHODS === #
 
     @api.constrains(
         'use_payment_terminal', 'numo_iban', 'numo_bank_code', 'numo_mcc',
         'numo_account_name', 'numo_merchant_name', 'numo_city', 'journal_id',
+        'numo_bank',
     )
     def _check_numo_fields(self):
         """Reject an unusable NUMO configuration at save time.
@@ -70,6 +96,7 @@ class PosPaymentMethod(models.Model):
         required = {
             'numo_account_name': _("Account Holder Name"),
             'numo_iban': _("IBAN"),
+            'numo_bank': _("Bank"),
             'numo_bank_code': _("Bank Code"),
             'numo_merchant_name': _("Merchant Name"),
             'numo_city': _("City"),

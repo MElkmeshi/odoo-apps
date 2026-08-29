@@ -15,10 +15,13 @@
                        placeholder="LY19 0240 0701 0118 5190 2070 1"
                        invisible="use_payment_terminal != 'numo_qr'"
                        required="use_payment_terminal == 'numo_qr'"/>
-                <field name="numo_bank_code"
-                       placeholder="024"
+                <field name="numo_bank"
                        invisible="use_payment_terminal != 'numo_qr'"
                        required="use_payment_terminal == 'numo_qr'"/>
+                <field name="numo_bank_code"
+                       placeholder="024"
+                       invisible="use_payment_terminal != 'numo_qr' or numo_bank != 'other'"
+                       required="use_payment_terminal == 'numo_qr' and numo_bank == 'other'"/>
                 <field name="numo_merchant_name"
                        placeholder="Hajat Market"
                        invisible="use_payment_terminal != 'numo_qr'"

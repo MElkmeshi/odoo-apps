@@ -2,6 +2,7 @@ from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
 from odoo.addons.point_of_sale.tests.common import TestPoSCommon
+from odoo.addons.pos_numo_qr import const
 
 
 @tagged('post_install', '-at_install')
@@ -17,7 +18,7 @@ class TestPosNumoQr(TestPoSCommon):
             'use_payment_terminal': 'numo_qr',
             'numo_account_name': "Hajat Market",
             'numo_iban': "LY19024007010118519020701",
-            'numo_bank_code': "024",
+            'numo_bank': '024',
             'numo_merchant_name': "Hajat Market",
             'numo_city': "Tripoli",
             'company_id': self.env.company.id,
@@ -51,8 +52,9 @@ class TestPosNumoQr(TestPoSCommon):
             self._create(numo_iban="GB33BUKB20201555555555")
 
     def test_malformed_bank_code_is_refused(self):
+        """Only reachable through Other now: a picked bank cannot be malformed."""
         with self.assertRaises(ValidationError):
-            self._create(numo_bank_code="24")
+            self._create(numo_bank=const.BANK_OTHER, numo_bank_code="24")
 
     def test_malformed_mcc_is_refused(self):
         with self.assertRaises(ValidationError):
@@ -101,3 +103,39 @@ class TestPosNumoQr(TestPoSCommon):
             'company_id': self.env.company.id,
         })
         self.assertEqual(method.journal_id, cash_journal)
+
+    def test_picking_a_bank_fills_in_its_code(self):
+        """The code is what lands in tag 30, so the picker has to set it."""
+        method = self._create(numo_bank='013')
+        self.assertEqual(method.numo_bank_code, '013', "Aman Bank is code 013")
+
+    def test_changing_the_bank_changes_the_code(self):
+        method = self._create()
+        self.assertEqual(method.numo_bank_code, '024')
+        method.numo_bank = '005'
+        self.assertEqual(method.numo_bank_code, '005', "the code must follow the bank")
+
+    def test_other_lets_an_unlisted_code_through(self):
+        """A newly licensed bank must not be a blocker until the next release."""
+        method = self._create(numo_bank=const.BANK_OTHER, numo_bank_code="099")
+        self.assertEqual(method.numo_bank_code, '099')
+
+    def test_other_still_rejects_a_malformed_code(self):
+        with self.assertRaises(ValidationError):
+            self._create(numo_bank=const.BANK_OTHER, numo_bank_code="99")
+
+    def test_other_requires_a_code(self):
+        with self.assertRaises(ValidationError):
+            self._create(numo_bank=const.BANK_OTHER, numo_bank_code=False)
+
+    def test_missing_bank_is_refused(self):
+        with self.assertRaises(ValidationError):
+            self._create(numo_bank=False, numo_bank_code=False)
+
+    def test_every_listed_bank_has_a_three_digit_code(self):
+        """A typo here would silently send money to the wrong institution."""
+        for code, name in const.LIBYAN_BANKS:
+            self.assertRegex(code, r'^\d{3}$', "%s has a malformed code" % name)
+        self.assertEqual(
+            len(const.BANK_CODES), len(const.LIBYAN_BANKS), "duplicate bank code"
+        )

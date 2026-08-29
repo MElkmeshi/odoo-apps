@@ -1,0 +1,125 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pos_numo_qr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__002
+msgid "002 — Jumhouria Bank"
+msgstr "002 — مصرف الجمهورية"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__004
+msgid "004 — National Commercial Bank"
+msgstr "004 — المصرف التجاري الوطني"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__005
+msgid "005 — Wahda Bank"
+msgstr "005 — مصرف الوحدة"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__006
+msgid "006 — Sahara Bank"
+msgstr "006 — مصرف الصحارى"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__007
+msgid "007 — North Africa Bank"
+msgstr "007 — مصرف شمال أفريقيا"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__010
+msgid "010 — Bank of Commerce & Development"
+msgstr "010 — مصرف التجارة والتنمية"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__012
+msgid "012 — Waha Bank"
+msgstr "012 — مصرف الواحة"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__013
+msgid "013 — Aman Bank"
+msgstr "013 — مصرف الأمان"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__014
+msgid "014 — National Union Bank"
+msgstr "014 — مصرف الاتحاد الوطني"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__015
+msgid "015 — Tadhamun Bank"
+msgstr "015 — مصرف التضامن"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__016
+msgid "016 — Alwafa Bank"
+msgstr "016 — مصرف الوفاء"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__017
+msgid "017 — United Bank for Commerce and Investment"
+msgstr "017 — مصرف المتحد"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__018
+msgid "018 — Mediterranean Bank"
+msgstr "018 — مصرف المتوسط"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__020
+msgid "020 — Assaray Bank"
+msgstr "020 — مصرف السراي"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__021
+msgid "021 — First Gulf Libyan Bank"
+msgstr "021 — مصرف الخليج الأول"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__023
+msgid "023 — Development Bank"
+msgstr "023 — مصرف التنمية"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__024
+msgid "024 — Nuran Bank"
+msgstr "024 — مصرف النوران"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__025
+msgid "025 — Libyan Islamic Bank"
+msgstr "025 — المصرف الإسلامي الليبي"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__026
+msgid "026 — Yaqeen Bank"
+msgstr "026 — مصرف اليقين"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__027
+msgid "027 — Andalus Bank"
+msgstr "027 — مصرف الأندلس"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields.selection,name:pos_numo_qr.selection__pos_payment_method__numo_bank__other
+msgid "Other"
+msgstr "أخرى"
+
+#. module: pos_numo_qr
+#: model:ir.model.fields,field_description:pos_numo_qr.field_pos_payment_method__numo_bank
+msgid "Bank"
+msgstr "المصرف"
