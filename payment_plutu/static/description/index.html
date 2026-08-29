@@ -1,0 +1,122 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#7C3AED;">Plutu Payment Provider</h2>
+        <h3 class="oe_slogan" style="color:#64748b;">Take payments in Libya through Plutu &mdash; local bank cards, T-Lync and international cards</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                The customer picks a Plutu payment method at checkout and is sent to Plutu to
+                pay. Plutu reports the result back with a signed callback, and the order
+                confirms. It is an ordinary Odoo payment provider: it works anywhere
+                <code>payment</code> works &mdash; eCommerce checkout, customer portal invoices,
+                subscriptions and payment links.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Three gateways</h2>
+        <div class="oe_span12">
+            <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
+                <tr>
+                    <td style="padding:12px 24px;"><b>Local Bank Cards</b></td>
+                    <td style="padding:12px 24px;">Libyan bank cards on the Numo network.</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px 24px;"><b>T-Lync</b></td>
+                    <td style="padding:12px 24px;">The T-Lync wallet. Needs the customer's mobile number.</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px 24px;"><b>Mastercard / Visa</b></td>
+                    <td style="padding:12px 24px;">International cards through MPGS.</td>
+                </tr>
+            </table>
+            <p class="oe_mt32 text-center" style="font-size:15px;">
+                Each is a separate payment method, so you can switch any of them on or off
+                independently from the provider's configuration.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Every callback is verified</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                A payment is only ever settled from a callback whose HMAC-SHA256 signature
+                verifies against your Plutu secret key. An unsigned or altered callback is
+                refused and the transaction is left alone.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                The signature is rebuilt per gateway and per channel, exactly as Plutu's own
+                PHP SDK builds it. This matters more than it sounds: T-Lync signs a different
+                set of fields on the browser return than on the server callback, and unlike the
+                other gateways it does not sign <code>canceled</code> at all. A single shared
+                field list verifies one gateway and silently rejects the next.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you need</h2>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="font-size:18px;">From Plutu</h4>
+            <p class="text-center" style="font-size:15px;">
+                An API Key, an Access Token and a Secret Key, from your Plutu merchant account.
+                Plutu also whitelists the IP your Odoo calls from, so add your server's address
+                in their dashboard.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="font-size:18px;">In your Odoo</h4>
+            <p class="text-center" style="font-size:15px;">
+                Set the provider to Enabled and fill in the three keys. The provider installs
+                <b>disabled and without credentials</b>, so nothing can take money until you
+                have deliberately turned it on.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Details worth knowing</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                <b>Currency.</b> Plutu settles in Libyan Dinar, so the provider is offered only
+                for LYD and never appears at checkout in a currency it would reject.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                <b>T-Lync needs a phone number.</b> If the customer has none on file, the
+                payment stops in Odoo with a message they can act on, rather than failing on
+                Plutu's page.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                <b>No card data.</b> The customer pays on Plutu's page, so your Odoo never sees
+                or stores a card. Tokenization and express checkout are off for the same reason.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                <b>Sadad and Adfali are not included.</b> Those gateways send the customer a
+                one-time code and need a second exchange to confirm it, which this module does
+                not implement. Offering them without it would strand the customer half way
+                through paying.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:14px; color:#64748b;">
+                Plutu, T-Lync, Mastercard and Visa are trademarks of their respective owners.
+                This module is an independent integration and is not affiliated with or
+                endorsed by them.
+            </p>
+        </div>
+    </div>
+</section>
