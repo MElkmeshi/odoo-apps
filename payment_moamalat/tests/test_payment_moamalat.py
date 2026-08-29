@@ -6,6 +6,7 @@ import hmac
 from odoo.exceptions import ValidationError
 from odoo.tests import HttpCase, tagged
 
+from odoo.addons.payment import utils as payment_utils
 from odoo.addons.payment.tests.common import PaymentCommon
 from odoo.addons.payment_moamalat import const
 
@@ -117,6 +118,33 @@ class TestPaymentMoamalat(PaymentCommon):
             self.env['payment.transaction']._search_by_reference(
                 'moamalat', self._notification(MerchantReference='NOPE')
             )
+
+    def test_full_processing_path_settles_the_transaction(self):
+        """Drive `_process`, not just `_apply_updates`.
+
+        `_process` also runs Odoo's amount check, which needs
+        `_extract_amount_data`. Testing only `_apply_updates` leaves that hook
+        unexercised, and every real webhook 500s.
+        """
+        tx = self._create_transaction(flow='direct', amount=10.0)
+        amount_minor = payment_utils.to_minor_currency_units(tx.amount, tx.currency_id)
+        data = self._notification(
+            Amount=str(amount_minor),
+            Currency=const.CURRENCY_MAPPING[tx.currency_id.name],
+        )
+        self.env['payment.transaction']._process('moamalat', data)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, 'done')
+
+    def test_amount_mismatch_is_refused(self):
+        """A correctly signed notification for the wrong amount must not settle."""
+        tx = self._create_transaction(flow='direct', amount=10.0)
+        data = self._notification(
+            Amount='1', Currency=const.CURRENCY_MAPPING[tx.currency_id.name],
+        )
+        self.env['payment.transaction']._process('moamalat', data)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, 'error')
 
     # === CONFIGURATION === #
 

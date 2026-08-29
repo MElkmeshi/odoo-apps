@@ -7,6 +7,10 @@ CURRENCY_MAPPING = {
     'EUR': '978',  # Euro
 }
 
+# The reverse of CURRENCY_MAPPING: Moamalat sends the numeric code back in its
+# notifications, and the amount check has to name the currency.
+CURRENCY_CODE_TO_NAME = {code: name for name, code in CURRENCY_MAPPING.items()}
+
 # The currencies the provider is offered for. Anything outside this set is
 # filtered out of `available_currency_ids`, so the provider never appears at
 # checkout in a currency Moamalat would reject.

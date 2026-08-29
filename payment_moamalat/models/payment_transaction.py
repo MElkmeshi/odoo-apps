@@ -97,6 +97,34 @@ class PaymentTransaction(models.Model):
             )
         return tx
 
+    def _extract_amount_data(self, payment_data):
+        """Override of `payment` to let Odoo check Moamalat's amount against ours.
+
+        Without this override `_process` raises `KeyError: 'amount'` on every
+        notification, because the base implementation returns an empty dict.
+
+        Moamalat reports the amount in minor units and the currency as its ISO
+        4217 number, so both are converted back before the comparison.
+
+        :param dict payment_data: The payment data sent by the provider.
+        :return: The amount data, or None to skip the check.
+        :rtype: dict|None
+        """
+        if self.provider_code != 'moamalat':
+            return super()._extract_amount_data(payment_data)
+
+        amount = payment_data.get('Amount')
+        currency_code = payment_data.get('Currency')
+        if amount is None or currency_code is None:
+            return None
+
+        return {
+            'amount': payment_utils.to_major_currency_units(float(amount), self.currency_id),
+            'currency_code': const.CURRENCY_CODE_TO_NAME.get(
+                str(currency_code), self.currency_id.name
+            ),
+        }
+
     def _apply_updates(self, payment_data):
         """Override of `payment` to update the transaction from Moamalat data.
 
