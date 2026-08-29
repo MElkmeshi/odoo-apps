@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pos_payment_method_view_form_inherit_numo_qr" model="ir.ui.view">
+        <field name="name">pos.payment.method.form.inherit.numo.qr</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='use_payment_terminal']" position="after">
+                <field name="numo_account_name"
+                       placeholder="Hajat Market"
+                       invisible="use_payment_terminal != 'numo_qr'"
+                       required="use_payment_terminal == 'numo_qr'"/>
+                <field name="numo_iban"
+                       placeholder="LY19 0240 0701 0118 5190 2070 1"
+                       invisible="use_payment_terminal != 'numo_qr'"
+                       required="use_payment_terminal == 'numo_qr'"/>
+                <field name="numo_bank_code"
+                       placeholder="024"
+                       invisible="use_payment_terminal != 'numo_qr'"
+                       required="use_payment_terminal == 'numo_qr'"/>
+                <field name="numo_merchant_name"
+                       placeholder="Hajat Market"
+                       invisible="use_payment_terminal != 'numo_qr'"
+                       required="use_payment_terminal == 'numo_qr'"/>
+                <field name="numo_city"
+                       placeholder="Tripoli"
+                       invisible="use_payment_terminal != 'numo_qr'"
+                       required="use_payment_terminal == 'numo_qr'"/>
+                <field name="numo_mcc"
+                       placeholder="5411"
+                       invisible="use_payment_terminal != 'numo_qr'"/>
+                <field name="numo_merchant_account"
+                       placeholder="Leave empty unless your bank issued one"
+                       invisible="use_payment_terminal != 'numo_qr'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

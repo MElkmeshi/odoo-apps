@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_numo_qr.NumoQrDialog">
+        <Dialog title="'NUMO QR'" bodyClass="'d-flex flex-column align-items-center'" size="'md'">
+            <div class="fs-1 fw-bolder mb-1" t-esc="props.amount"/>
+            <div t-if="props.merchantName" class="text-muted mb-3" t-esc="props.merchantName"/>
+
+            <img class="border rounded p-2 bg-white"
+                 style="width: 320px; height: 320px;"
+                 t-att-src="qrSrc"
+                 alt="NUMO payment QR code"/>
+
+            <div class="text-muted mt-3 text-center">
+                Ask the customer to scan this with their banking app.
+            </div>
+            <div t-if="props.reference" class="text-muted small mt-1">
+                Ref <t t-esc="props.reference"/>
+            </div>
+
+            <t t-set-slot="footer">
+                <div class="d-flex flex-grow-1 justify-content-center">
+                    <button class="btn btn-primary btn-lg lh-lg o-default-button me-2"
+                            t-on-click="confirm">
+                        <t t-esc="confirmLabel"/>
+                    </button>
+                    <button class="btn btn-secondary btn-lg lh-lg o-default-button"
+                            t-on-click="cancel">
+                        Cancel
+                    </button>
+                </div>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>
