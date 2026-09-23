@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odoo_sync_source,odoo.sync.source,model_odoo_sync_source,base.group_system,1,1,1,1
+access_odoo_sync_model,odoo.sync.model,model_odoo_sync_model,base.group_system,1,1,1,1
+access_odoo_sync_run,odoo.sync.run,model_odoo_sync_run,base.group_system,1,1,1,1
+access_odoo_sync_log,odoo.sync.log,model_odoo_sync_log,base.group_system,1,0,0,1

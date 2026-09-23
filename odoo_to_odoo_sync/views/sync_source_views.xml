@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="odoo_sync_source_view_list" model="ir.ui.view">
+        <field name="name">odoo.sync.source.list</field>
+        <field name="model">odoo.sync.source</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="url"/>
+                <field name="database"/>
+                <field name="run_count" string="Runs"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="odoo_sync_source_view_form" model="ir.ui.view">
+        <field name="name">odoo.sync.source.form</field>
+        <field name="model">odoo.sync.source</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start_full" type="object" string="Sync All" class="btn-primary"
+                            confirm="Copy every listed model from the source into this database?"/>
+                    <button name="action_start_incremental" type="object" string="Sync Changes"
+                            help="Only records changed in the source since the last run"/>
+                    <button name="action_test_connection" type="object" string="Test Connection"/>
+                    <button name="action_load_models" type="object" string="Load Models"
+                            help="List every model that has records in the source"/>
+                    <button name="action_order_models" type="object" string="Order by Dependencies"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_runs" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="run_count" widget="statinfo" string="Runs"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Production"/></h1>
+                    </div>
+                    <group>
+                        <group string="Source">
+                            <field name="url" placeholder="https://mycompany.odoo.com"/>
+                            <field name="database"/>
+                            <field name="api_key" password="True"/>
+                        </group>
+                        <group string="Options">
+                            <field name="batch_size"/>
+                            <field name="sync_translations"/>
+                            <field name="xmlid_module"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Models" name="models">
+                            <field name="model_ids">
+                                <list editable="bottom" decoration-muted="not active">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="model_id"/>
+                                    <field name="model" optional="show"/>
+                                    <field name="domain" optional="show"/>
+                                    <field name="match_field_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="late_field_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="excluded_field_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="source_count" optional="show"/>
+                                    <field name="last_sync_date" optional="show"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="odoo_sync_source_action" model="ir.actions.act_window">
+        <field name="name">Sync Sources</field>
+        <field name="res_model">odoo.sync.source</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Connect another Odoo database</p>
+            <p>Records are pulled from it into this database and matched by External ID, so running the sync again updates instead of duplicating.</p>
+        </field>
+    </record>
+</odoo>

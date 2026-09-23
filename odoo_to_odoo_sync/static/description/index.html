@@ -1,0 +1,86 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#0F766E;">Odoo to Odoo Sync</h2>
+        <h3 class="oe_slogan" style="color:#5f7d7a;">Copy another database's records into this one &mdash; merged, not duplicated</h3>
+        <div class="oe_span12">
+            <p class="oe_mt32 text-center" style="font-size:16px;">
+                Point it at another Odoo database of the same version, press <b>Load Models</b>
+                and <b>Sync All</b>. Every model that has records there is copied here, in the
+                order its links need, and matched against what this database already holds.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">How a record is matched</h2>
+        <div class="oe_span12">
+            <table style="margin:0 auto; border-collapse:collapse; font-size:15px;">
+                <tr><th style="padding:8px 24px;">Step</th><th style="padding:8px 24px;">Example</th></tr>
+                <tr><td style="padding:6px 24px;">Copied by an earlier run</td><td style="padding:6px 24px;">updated in place</td></tr>
+                <tr><td style="padding:6px 24px;">Same External ID in both databases</td><td style="padding:6px 24px;"><code>base.main_company</code>, <code>uom.product_uom_unit</code></td></tr>
+                <tr><td style="padding:6px 24px;">Same values in the fields you choose</td><td style="padding:6px 24px;">users by login, variants by template and attributes</td></tr>
+                <tr><td style="padding:6px 24px;">None of the above</td><td style="padding:6px 24px;">created</td></tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">What you get</h2>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Run it again safely</h3>
+            <p>
+                Every copied record keeps an External ID pointing back at the source, so a
+                second run updates instead of creating, and <b>Sync Changes</b> only pulls
+                what changed since the last run.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Links survive</h3>
+            <p>
+                Models are ordered by what they point to. Links that can only be set once both
+                sides exist &mdash; a partner's parent, a posted entry's state &mdash; are restored
+                in a second pass. Company-specific values are copied per company.
+            </p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">Built for Odoo.sh</h3>
+            <p>
+                Runs as a background job in short resumable chunks, committing as it goes.
+                A run that stops can be resumed from where it was.
+            </p>
+        </div>
+
+        <div class="oe_span6">
+            <h3 style="color:#0F766E;">A log you can act on</h3>
+            <p>
+                Each run lists what it created and updated, and for every record it could not
+                copy, the reason: a missing link, a constraint, a field it had to leave empty.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Before you run it</h2>
+        <div class="oe_span12">
+            <p class="text-center" style="font-size:15px;">
+                Both databases must run the same Odoo version with the same modules installed.
+                The API key's user needs read access to everything you want copied, in every company.
+            </p>
+            <p class="text-center" style="font-size:15px;">
+                Records are merged: source values overwrite matching records here, and nothing
+                here is deleted. Try it on a staging branch first.
+            </p>
+        </div>
+    </div>
+</section>
