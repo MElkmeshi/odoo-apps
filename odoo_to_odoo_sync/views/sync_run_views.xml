@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="odoo_sync_run_view_list" model="ir.ui.view">
+        <field name="name">odoo.sync.run.list</field>
+        <field name="model">odoo.sync.run</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-danger="state == 'failed'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="incremental"/>
+                <field name="started_at"/>
+                <field name="finished_at"/>
+                <field name="phase"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="created"/>
+                <field name="updated"/>
+                <field name="failed"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'" decoration-info="state in ('queued', 'running')"
+                       decoration-danger="state == 'failed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="odoo_sync_run_view_form" model="ir.ui.view">
+        <field name="name">odoo.sync.run.form</field>
+        <field name="model">odoo.sync.run</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <header>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state not in ('queued', 'running')"/>
+                    <button name="action_resume" type="object" string="Resume" class="btn-primary"
+                            invisible="state not in ('failed', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="queued,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="not error">
+                        <field name="error"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="source_id"/>
+                            <field name="incremental"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                        </group>
+                        <group>
+                            <field name="phase"/>
+                            <field name="current_line_id" invisible="not current_line_id" options="{'no_open': True}"/>
+                            <field name="progress" widget="progressbar"/>
+                            <field name="processed"/>
+                            <field name="total"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Results">
+                            <field name="created"/>
+                            <field name="updated"/>
+                            <field name="relinked" string="Links restored"/>
+                        </group>
+                        <group string="Problems">
+                            <field name="skipped"/>
+                            <field name="failed"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Log" name="log">
+                            <field name="log_ids">
+                                <list decoration-danger="level == 'error'" decoration-warning="level == 'warning'">
+                                    <field name="level"/>
+                                    <field name="model"/>
+                                    <field name="source_id"/>
+                                    <field name="record_id" optional="hide"/>
+                                    <field name="message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="odoo_sync_log_view_search" model="ir.ui.view">
+        <field name="name">odoo.sync.log.search</field>
+        <field name="model">odoo.sync.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="model"/>
+                <field name="message"/>
+                <field name="run_id"/>
+                <filter name="errors" string="Errors" domain="[('level', '=', 'error')]"/>
+                <filter name="warnings" string="Warnings" domain="[('level', '=', 'warning')]"/>
+                <group>
+                    <filter name="group_model" string="Model" context="{'group_by': 'model'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="odoo_sync_run_action" model="ir.actions.act_window">
+        <field name="name">Sync Runs</field>
+        <field name="res_model">odoo.sync.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

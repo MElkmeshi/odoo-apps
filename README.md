@@ -10,6 +10,7 @@ branch name is the Odoo series the modules target - `19.0`.
 | [`partner_phone_eg`](partner_phone_eg) | Stores Egyptian mobile numbers in one canonical form (`01XXXXXXXXX`), keeps them unique across contacts, and finds a contact by number typed in any format. |
 | [`partner_phone_display_name`](partner_phone_display_name) | Shows a contact's phone next to their name, so similarly named contacts are told apart at a glance. |
 | [`ai_custom_endpoint`](ai_custom_endpoint) | Points Odoo's AI features at any OpenAI-compatible gateway instead of the hardcoded OpenAI and Google endpoints. |
+| [`odoo_to_odoo_sync`](odoo_to_odoo_sync) | Copies every model from another Odoo database into this one, matched by External ID, in resumable background chunks. |
 
 ## Installing
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="odoo_sync_menu_root" name="Odoo to Odoo Sync" parent="base.menu_custom" sequence="100"/>
+    <menuitem id="odoo_sync_source_menu" name="Sources" parent="odoo_sync_menu_root" action="odoo_sync_source_action" sequence="10"/>
+    <menuitem id="odoo_sync_run_menu" name="Runs" parent="odoo_sync_menu_root" action="odoo_sync_run_action" sequence="20"/>
+</odoo>
